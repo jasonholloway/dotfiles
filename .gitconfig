@@ -1,2 +1,10 @@
 [push]
 	default = matching
+[user]
+	name = Jason Holloway
+	email = miceeatnicerice@hotmail.com
+[alias]
+	cm = commit -m
+	st = status
+	co = checkout
+	br = branch
