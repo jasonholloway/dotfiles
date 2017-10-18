@@ -51,9 +51,19 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode ssh-agent)
+plugins=(git vi-mode ssh-agent zaw)
 
 source $ZSH/oh-my-zsh.sh
+
+setopt APPEND_HISTORY
+setopt EXTENDED_HISTORY
+setopt INC_APPEND_HISTORY
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE
+setopt NO_HIST_BEEP
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_DUPS
 
 # User configuration
 
