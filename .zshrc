@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/jason/.oh-my-zsh
+export ZSH=/home/jason/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -51,7 +51,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git vi-mode ssh-agent zaw history-substring-search)
+plugins=(git vi-mode ssh-agent zaw history-substring-search zsh-nvm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -79,6 +79,8 @@ setopt HIST_IGNORE_DUPS
 #   export EDITOR='mvim'
 # fi
 
+export EDITOR='vim'
+
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -96,5 +98,15 @@ setopt HIST_IGNORE_DUPS
 
 alias cls="printf \"\033c\""
 
+export PATH=$HOME/bin:$PATH
+
 export DOCKER_HOST=localhost
+
+export JUMPBOX=172.23.132.64
+
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+
+export DOCKER_HOST=tcp://192.168.99.100:2376
+export DOCKER_CERT_PATH=/mnt/c/Users/jholloway/.docker/machine/certs
+export DOCKER_TLS_VERIFY=1
 

@@ -1,10 +1,17 @@
-[push]
-	default = matching
 [user]
 	name = Jason Holloway
 	email = miceeatnicerice@hotmail.com
+[core]
+	autocrlf = input
+[push]
+	default = matching
 [alias]
-	cm = commit -m
-	st = status
-	co = checkout
+	lg = log --oneline --decorate --graph
 	br = branch
+	st = status
+	cm = commit -m
+	co = checkout
+	conflicts = diff --name-only --diff-filter=U
+[push]
+	default = current
+
