@@ -2,3 +2,5 @@
 
 !.gitignore
 !.emacs.d
+!.zshrc
+
