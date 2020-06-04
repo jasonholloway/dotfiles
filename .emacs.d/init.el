@@ -69,7 +69,7 @@
 (tool-bar-mode 0)
 (menu-bar-mode 0)
 (toggle-frame-fullscreen)
-;;(scroll-bar-mode 0)
+(scroll-bar-mode 0)
 (fset `yes-or-no-p `y-or-n-p)
 
 (global-set-key (kbd "M-]") `next-buffer)
@@ -132,6 +132,8 @@
 (require 'server)
 (and (>= emacs-major-version 23)
 	(defun server-ensure-safe-dir (dir) "Noop" t))
+
+(setq visible-bell 1)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
