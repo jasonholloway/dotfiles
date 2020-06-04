@@ -1,3 +1,5 @@
+[core]
+  fscache = true
 [credential]
 	helper = manager
 [alias]
