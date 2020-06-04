@@ -123,6 +123,9 @@
   :config
     (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
+(use-package yaml-mode
+  :ensure t)
+
 (global-linum-mode t)
 (setq linum-format "%d ")
 
