@@ -1,5 +1,21 @@
-# This is Git's per-user configuration file.
+[credential]
+	helper = manager
+[alias]
+	st = status
+	co = checkout
+	br = branch
+	cm = commit -m
+	lg = log --graph --oneline
+	fa = fetch --all
+	pf = push --force
+	rc = rebase --continue
+	rom = rebase origin/master
+	po = push origin
+	pof = push origin -f
 [user]
-name = jasonholloway
-email = jason.holloway@sorted.com
-
+	name = Jason Holloway
+	email = jason.holloway@sorted.com
+[push]
+	default = current
+[branch]
+	autoSetupMerge = always
