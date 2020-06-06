@@ -110,6 +110,13 @@
     (setq projectile-indexing-method 'native)
     (setq projectile-enable-caching t))
 
+(use-package helm-ag
+  :ensure t
+  :config
+    (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
+    (setq helm-ag-command-option "--all-text")
+    (setq helm-ag-insert-at-point 'symbol))
+
 (use-package helm-projectile
   :ensure t
   :requires helm
@@ -125,6 +132,16 @@
 
 (use-package yaml-mode
   :ensure t)
+
+(use-package lsp-mode
+  :ensure t)
+
+(use-package go-mode
+  :ensure t
+  :requires lsp-mode
+  :config
+    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+    (add-hook 'go-mode-hook 'lsp-deferred))
 
 (global-linum-mode t)
 (setq linum-format "%d ")

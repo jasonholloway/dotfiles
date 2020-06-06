@@ -1,5 +1,5 @@
 [core]
-  fscache = true
+	fscache = true
 [credential]
 	helper = manager
 [alias]
@@ -11,6 +11,9 @@
 	fa = fetch --all
 	pf = push --force
 	rc = rebase --continue
+	ra = rebase --abort
+	rs = rebase --skip
+	ri = rebase -i
 	rom = rebase origin/master
 	po = push origin
 	pof = push origin -f
@@ -19,7 +22,3 @@
 	email = jason.holloway@sorted.com
 [push]
 	default = current
-[branch]
-	autoSetupMerge = always
-[pull]
-	rebase = false
