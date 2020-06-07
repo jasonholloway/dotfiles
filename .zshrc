@@ -115,21 +115,21 @@ source $ZSH/oh-my-zsh.sh
 alias em='emacsclient -c'
 
 p() {
-	prefix="/c/src"
+  prefix="/c/src"
   query="$(ls ""$prefix"" | fzf -q ""$1"")"
 
-	if [ $? -eq 0 ]; then
-		pushd "${prefix}/${query}"
-		clear
-	fi
+  if [ $? -eq 0 ]; then
+    pushd "${prefix}/${query}"
+    clear
+  fi
 }
 
 b() {
   branch="$(git branch --all --format='%(refname:short)' | fzf -q ""$1"")"
 
-	if [ $? -eq 0 ]; then
-		git checkout "$branch"
-	fi
+  if [ $? -eq 0 ]; then
+    git checkout "$branch"
+  fi
 }
 
 
