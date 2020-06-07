@@ -94,24 +94,38 @@
 	    helm-source-bookmarks
 	    helm-source-buffer-not-found)))
 
+(use-package shut-up
+  :ensure t)
+
 (use-package recentf
   :ensure t
+  :requires shut-up
   :config
     (recentf-mode 1)
     (setq recentf-max-menu-items 25)
     (global-set-key "\C-x\ \C-r" `recentf-open-files)
-    (run-at-time nil 120 `recentf-save-list))
+    (run-at-time nil 5 (lambda () (shut-up 'recentf-save-list))))
 
 (use-package projectile
   :ensure t
   :config
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     (projectile-mode +1)
-    (setq projectile-indexing-method 'native)
+    (setq projectile-use-git-grep t)
+    (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t))
+
+(use-package projectile-ripgrep
+  :ensure t
+  :requires projectile helm-rg)
+
+(use-package helm-rg
+  :ensure t
+  :requires helm)
 
 (use-package helm-ag
   :ensure t
+  :requires helm
   :config
     (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
     (setq helm-ag-command-option "--all-text")
@@ -147,8 +161,7 @@
 (setq linum-format "%d ")
 
 (require 'server)
-(and (>= emacs-major-version 23)
-	(defun server-ensure-safe-dir (dir) "Noop" t))
+(defun server-ensure-safe-dir (dir) "Noop" t)
 
 (setq visible-bell 1)
 
