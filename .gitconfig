@@ -22,3 +22,5 @@
 	email = jason.holloway@sorted.com
 [push]
 	default = current
+[pull]
+	ff = only

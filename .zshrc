@@ -116,7 +116,7 @@ alias em='emacsclient -c'
 
 p() {
   prefix="/c/src"
-  query="$(ls ""$prefix"" | fzf -q ""$1"")"
+  query="$(ls ""$prefix"" | fzy -q ""$1"")"
 
   if [ $? -eq 0 ]; then
     pushd "${prefix}/${query}"
@@ -125,7 +125,7 @@ p() {
 }
 
 b() {
-  branch="$(git branch --all --format='%(refname:short)' | fzf -q ""$1"")"
+  branch="$(git branch --all --format='%(refname:short)' | fzy -q ""$1"")"
 
   if [ $? -eq 0 ]; then
     git checkout "$branch"
