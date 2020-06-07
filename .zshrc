@@ -116,20 +116,35 @@ alias em='emacsclient -c'
 
 p() {
   prefix="/c/src"
-  query="$(ls ""$prefix"" | fzy -q ""$1"")"
+  query="$(ls ""$prefix"" | fzy -q ""$1"" -l 20)"
 
-  if [ $? -eq 0 ]; then
+  if [ $? -eq 0 -a ! -z "$query" ]; then
     pushd "${prefix}/${query}"
     clear
   fi
 }
 
 b() {
-  branch="$(git branch --all --format='%(refname:short)' | fzy -q ""$1"")"
+  branch="$(git branch --all --format='%(refname:short)' | fzy -q ""$1"" -l 20)"
 
-  if [ $? -eq 0 ]; then
+  if [ $? -eq 0 -a ! -z "$branch" ]; then
     git checkout "$branch"
   fi
 }
 
+e() {
+	file="$(git ls-files | fzy -q ""$1"" -l 20)"
+
+  if [ $? -eq 0 -a ! -z "$file" ]; then
+		em "$file"
+  fi
+}
+
+ee() {
+	file="$(git ls-files -m | fzy -q ""$1"" -l 20)"
+
+  if [ $? -eq 0 -a ! -z "$file" ]; then
+		em "$file"
+  fi
+}
 
