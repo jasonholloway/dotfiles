@@ -133,18 +133,18 @@ b() {
 }
 
 e() {
-	file="$(git ls-files | fzy -q ""$1"" -l 20)"
+  file="$(git ls-files | fzy -q ""$1"" -l 20)"
 
   if [ $? -eq 0 -a ! -z "$file" ]; then
-		em "$file"
+    em --alternate-editor=vim "$file"
   fi
 }
 
 ee() {
-	file="$(git ls-files -m | fzy -q ""$1"" -l 20)"
+  file="$(git ls-files -m | fzy -q ""$1"" -l 20)"
 
   if [ $? -eq 0 -a ! -z "$file" ]; then
-		em "$file"
+    em --alternate-editor=vim "$file"
   fi
 }
 
