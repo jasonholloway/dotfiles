@@ -114,7 +114,7 @@ source $ZSH/oh-my-zsh.sh
 
 alias em='emacsclient -c'
 
-p() {
+choose_project() {
   prefix="/c/src"
   query="$(ls ""$prefix"" | fzy -q ""$1"" -l 20)"
 
@@ -122,29 +122,56 @@ p() {
     pushd "${prefix}/${query}"
     clear
   fi
+
+  zle reset-prompt
 }
 
-b() {
+zle -N choose_project
+bindkey '^[jp' choose_project
+
+
+git_choose_branch() {
+  buffer="$BUFFER"
   branch="$(git branch --all --format='%(refname:short)' | fzy -q ""$1"" -l 20)"
 
   if [ $? -eq 0 -a ! -z "$branch" ]; then
-    git checkout "$branch"
+    if [ ! -z "$buffer" ]; then
+      zle -U "$branch"
+    else
+      git checkout "$branch"
+    fi
   fi
+
+  zle reset-prompt
 }
 
-e() {
-  file="$(git ls-files | fzy -q ""$1"" -l 20)"
+zle -N git_choose_branch
+bindkey '^[jb' git_choose_branch
 
-  if [ $? -eq 0 -a ! -z "$file" ]; then
-    em --alternate-editor=vim "$file"
-  fi
-}
 
-ee() {
+git_edit_dirty() {
   file="$(git ls-files -m | fzy -q ""$1"" -l 20)"
 
   if [ $? -eq 0 -a ! -z "$file" ]; then
     em --alternate-editor=vim "$file"
   fi
+
+  zle reset-prompt
 }
 
+zle -N git_edit_dirty
+bindkey '^[jd' git_edit_dirty
+
+
+git_edit_all() {
+  file="$(git ls-files | fzy -q ""$1"" -l 20)"
+
+  if [ $? -eq 0 -a ! -z "$file" ]; then
+    em --alternate-editor=vim "$file"
+  fi
+
+  zle reset-prompt
+}
+
+zle -N git_edit_all
+bindkey '^[je' git_edit_all
