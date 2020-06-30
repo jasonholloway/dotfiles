@@ -6,9 +6,21 @@
 
 (package-initialize)
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+;; (unless (package-installed-p 'use-package)
+;;   (package-refresh-contents)
+;;   (package-install 'use-package))
+
+(unless (package-installed-p 'quelpa)
+    (with-temp-buffer
+      (url-insert-file-contents "https://github.com/quelpa/quelpa/raw/master/quelpa.el")
+      (eval-buffer)
+      (quelpa-self-upgrade)))
+
+(quelpa
+ '(quelpa-use-package
+   :fetcher git
+   :url "https://github.com/quelpa/quelpa-use-package.git"))
+(require 'quelpa-use-package)
 
 (eval-when-compile
   (require 'use-package))
@@ -157,6 +169,29 @@
     (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
     (add-hook 'go-mode-hook 'lsp-deferred))
 
+
+(defun md2html (buffer)
+  (princ (with-current-buffer buffer
+    (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
+  (current-buffer)))
+
+(use-package simple-httpd
+  :quelpa
+  :ensure t)
+
+(use-package markdown-mode
+  :ensure t
+  :requires impatient-mode
+  :config (imp-set-user-filter 'md2html))
+
+(use-package impatient-mode
+  :ensure t
+  :quelpa
+  :requires simple-httpd
+  :hook markdown-mode
+  :config
+    (httpd-start))
+
 (global-linum-mode t)
 (setq linum-format "%d ")
 
@@ -171,13 +206,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-	 (quote
-		("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
+   (quote
+    ("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
  '(evil-shift-width 2)
  '(org-hide-emphasis-markers t t)
  '(package-selected-packages
-	 (quote
-		(projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil)))
+   (quote
+    (quelpa-use-package quelpa impatient-mode esup shut-up lsp-mode go-mode projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil)))
  '(scroll-error-top-bottom t)
  '(tab-width 2))
 
