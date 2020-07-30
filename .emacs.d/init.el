@@ -6,9 +6,7 @@
 
 (package-initialize)
 
-;; (unless (package-installed-p 'use-package)
-;;   (package-refresh-contents)
-;;   (package-install 'use-package))
+(package-install 'quelpa)
 
 (unless (package-installed-p 'quelpa)
     (with-temp-buffer
@@ -41,6 +39,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(winner-mode 1)
+
+(use-package which-key
+  :ensure t
+  :config
+    (which-key-mode 1))
 
 (use-package magit
   :ensure t
@@ -191,6 +196,27 @@
   :hook markdown-mode
   :config
     (httpd-start))
+
+(use-package typescript-mode
+  :ensure t
+  :init
+  (setq typescript-indent-level 2))
+
+(use-package flycheck
+  :ensure t
+  :config
+  (global-flycheck-mode))
+
+(defun setup-tide ()
+  (tide-setup)
+  (flycheck-mode 1)
+  (company-mode 1))
+
+(use-package tide
+  :ensure t
+  :after (typescript-mode flycheck)
+  :hook (typescript-mode . setup-tide))
+
 
 (global-linum-mode t)
 (setq linum-format "%d ")
