@@ -214,6 +214,7 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   (flycheck-add-mode 'typescript-tslint 'web-mode)
+  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White")
   :hook
   (web-mode . (lambda ()
                 (when (string-equal "tsx" (file-name-extension buffer-file-name))
