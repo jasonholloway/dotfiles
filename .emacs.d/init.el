@@ -1,12 +1,10 @@
 (require `package)
+(setq package-check-signature nil)
+(package-initialize)
 
 (add-to-list `package-archives '("melpa" . "http://melpa.org/packages/") t)
 (add-to-list `package-archives '("marmalade" . "http://marmalade.ferrier.me.uk/packages/"))
 (add-to-list `package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-
-(package-initialize)
-
-(package-install 'quelpa)
 
 (unless (package-installed-p 'quelpa)
     (with-temp-buffer
@@ -18,10 +16,13 @@
  '(quelpa-use-package
    :fetcher git
    :url "https://github.com/quelpa/quelpa-use-package.git"))
-(require 'quelpa-use-package)
 
 (eval-when-compile
+  (require 'quelpa-use-package)
   (require 'use-package))
+
+(setq use-package-always-ensure t)
+(setq backup-directory-alist `(("." . "~/.backups")))
 
 (setq-default tab-width 2)
 (setq-default standard-indent 2)
@@ -43,43 +44,47 @@
 (winner-mode 1)
 
 (use-package which-key
-  :ensure t
   :config
-    (which-key-mode 1))
+  (which-key-mode 1))
+
+(use-package smartparens
+  :config
+  (smartparens-global-mode t)
+  (setq show-parent-delay 0)
+  (show-paren-mode 1))
 
 (use-package magit
-  :ensure t
   :config
-    (global-set-key (kbd "C-x g") 'magit-status)
-    (global-set-key (kbd "C-x M-g") 'magit-dispatch))
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (global-set-key (kbd "C-x M-g") 'magit-dispatch))
 
 (use-package company
-  :ensure t
   :config
-    (add-hook 'after-init-hook 'global-company-mode)
-    (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
-    (setq company-dabbrev-downcase nil)
-    (setq company-idle-delay 0))
+  (add-hook 'after-init-hook 'global-company-mode)
+  (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
+  (setq company-dabbrev-downcase nil)
+  (setq company-idle-delay 0))
 
 (use-package key-chord
-  :ensure t
   :config
-    (key-chord-mode 1)
-    (key-chord-define-global "fm" `list-buffers))
+  (key-chord-mode 1)
+  (key-chord-define-global "fm" `list-buffers))
 
 (use-package evil
-  :ensure t
   :requires key-chord
   :config
-    (evil-mode 1)
-    (key-chord-define evil-insert-state-map "jj" 'evil-normal-state))
+  (evil-mode 1)
+  (key-chord-define evil-insert-state-map "jj" 'evil-normal-state))
+
+(use-package evil-surround
+  :after evil
+  :config
+  (global-evil-surround-mode t))
 
 (use-package monokai-theme
-  :ensure t
-  :config (load-theme `monokai t))  
+  :config (load-theme `monokai t))
 
-(use-package terraform-mode
-	:ensure t)
+(use-package terraform-mode)
 
 (setq org-hide-emphasis-markers t)
 
@@ -90,12 +95,11 @@
 (fset `yes-or-no-p `y-or-n-p)
 
 (global-set-key (kbd "M-]") `next-buffer)
-;(global-set-key (kbd "M-[") `previous-buffer)
+(global-set-key (kbd "M-[") `previous-buffer)
 
 (windmove-default-keybindings `meta)
 
 (use-package helm
-  :ensure t
 	:requires key-chord
   :config
     (global-set-key (kbd "M-x") `helm-M-x)
@@ -111,11 +115,9 @@
 	    helm-source-bookmarks
 	    helm-source-buffer-not-found)))
 
-(use-package shut-up
-  :ensure t)
+(use-package shut-up)
 
 (use-package recentf
-  :ensure t
   :requires shut-up
   :config
     (recentf-mode 1)
@@ -124,7 +126,6 @@
     (run-at-time nil 5 (lambda () (shut-up 'recentf-save-list))))
 
 (use-package projectile
-  :ensure t
   :config
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     (projectile-mode +1)
@@ -132,43 +133,39 @@
     (setq projectile-indexing-method 'alien)
     (setq projectile-enable-caching t))
 
+(use-package ripgrep)
+
 (use-package projectile-ripgrep
-  :ensure t
-  :requires projectile helm-rg)
+  :after (ripgrep projectile helm-rg))
 
 (use-package helm-rg
-  :ensure t
-  :requires helm)
+  :after (helm ripgrep)
+  :config
+  (setq helm-rg-default-directory 'git-root))
 
 (use-package helm-ag
-  :ensure t
-  :requires helm
+  :after helm
   :config
     (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
     (setq helm-ag-command-option "--all-text")
     (setq helm-ag-insert-at-point 'symbol))
 
 (use-package helm-projectile
-  :ensure t
-  :requires helm
-  :requires projectile
+  :after helm
+  :after projectile
   :config
     (setq projectile-completion-system `helm)
     (helm-projectile-on))
 
 (use-package dockerfile-mode
-  :ensure t
   :config
     (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
-(use-package yaml-mode
-  :ensure t)
+(use-package yaml-mode)
 
-(use-package lsp-mode
-  :ensure t)
+(use-package lsp-mode)
 
 (use-package go-mode
-  :ensure t
   :requires lsp-mode
   :config
     (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
@@ -181,16 +178,13 @@
   (current-buffer)))
 
 (use-package simple-httpd
-  :quelpa
-  :ensure t)
+  :quelpa)
 
 (use-package markdown-mode
-  :ensure t
   :requires impatient-mode
   :config (imp-set-user-filter 'md2html))
 
 (use-package impatient-mode
-  :ensure t
   :quelpa
   :requires simple-httpd
   :hook markdown-mode
@@ -198,12 +192,10 @@
     (httpd-start))
 
 (use-package typescript-mode
-  :ensure t
   :init
-  (setq typescript-indent-level 2))
+  (setq typescript-indent-level 4))
 
 (use-package flycheck
-  :ensure t
   :config
   (global-flycheck-mode))
 
@@ -213,10 +205,19 @@
   (company-mode 1))
 
 (use-package tide
-  :ensure t
-  :after (typescript-mode flycheck)
-  :hook (typescript-mode . setup-tide))
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . setup-tide)
+         (typescript-mode . tide-hl-identifier-mode)))
 
+(use-package web-mode
+  :after flycheck
+  :config
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (flycheck-add-mode 'typescript-tslint 'web-mode)
+  :hook
+  (web-mode . (lambda ()
+                (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                  (setup-tide)))))
 
 (global-linum-mode t)
 (setq linum-format "%d ")
