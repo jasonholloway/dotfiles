@@ -22,17 +22,6 @@
   (require 'use-package))
 
 (setq use-package-always-ensure t)
-(setq backup-directory-alist `(("." . "~/.backups")))
-
-(setq-default tab-width 2)
-(setq-default standard-indent 2)
-
-(add-hook 'find-file-hook 'infer-indents)
-(defun infer-indents ()
-  (let ((space-count (how-many "^  " (point-min) (point-max)))
-        (tab-count (how-many "^\t" (point-min) (point-max))))
-    (if (> space-count tab-count) (setq indent-tabs-mode nil))
-    (if (> tab-count space-count) (setq indent-tabs-mode t))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -41,17 +30,24 @@
  ;; If there is more than one, they won't work right.
  )
 
-(winner-mode 1)
+(use-package monokai-theme
+  :config (load-theme `monokai t))
 
 (use-package which-key
   :config
   (which-key-mode 1))
 
+(use-package general)
+
 (use-package smartparens
   :config
-  (smartparens-global-mode t)
   (setq show-parent-delay 0)
+  (smartparens-global-mode t)
   (show-paren-mode 1))
+
+(use-package flycheck
+  :config
+  (global-flycheck-mode))
 
 (use-package magit
   :config
@@ -60,54 +56,40 @@
 
 (use-package company
   :config
-  (add-hook 'after-init-hook 'global-company-mode)
-  (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
   (setq company-dabbrev-downcase nil)
-  (setq company-idle-delay 0))
+  (setq company-idle-delay 0)
+  (add-hook 'after-init-hook 'global-company-mode)
+  (global-set-key (kbd "M-/") 'company-complete-common-or-cycle))
 
 (use-package key-chord
   :config
-  (key-chord-mode 1)
-  (key-chord-define-global "fm" `list-buffers))
+  (key-chord-mode 1))
 
 (use-package evil
   :requires key-chord
+  :init
+  (setq evil-want-keybinding nil)
+  (setq evil-want-integration t)
   :config
-  (evil-mode 1)
-  (key-chord-define evil-insert-state-map "jj" 'evil-normal-state))
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :custom
+  (evil-collection-setup-minibuffer t)
+  :init
+  (evil-collection-init))
 
 (use-package evil-surround
   :after evil
   :config
   (global-evil-surround-mode t))
 
-(use-package monokai-theme
-  :config (load-theme `monokai t))
-
-(use-package terraform-mode)
-
-(setq org-hide-emphasis-markers t)
-
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-(toggle-frame-fullscreen)
-(scroll-bar-mode 0)
-(fset `yes-or-no-p `y-or-n-p)
-
-(global-set-key (kbd "M-]") `next-buffer)
-(global-set-key (kbd "M-[") `previous-buffer)
-
-(windmove-default-keybindings `meta)
 
 (use-package helm
-	:requires key-chord
   :config
     (global-set-key (kbd "M-x") `helm-M-x)
-    (global-set-key (kbd "C-x C-m") `helm-M-x)
-    (global-set-key (kbd "C-c C-m") `helm-M-x)
     (global-set-key (kbd "C-x b") `helm-mini)
-    (global-set-key (kbd "M-l") `helm-mini)
-    (key-chord-define-global "fm" `helm-mini)
     (global-set-key (kbd "C-x C-f") `helm-find-files)
     (setq helm-mini-default-sources
 	  `(helm-source-buffers-list
@@ -120,56 +102,47 @@
 (use-package recentf
   :requires shut-up
   :config
-    (recentf-mode 1)
-    (setq recentf-max-menu-items 25)
-    (global-set-key "\C-x\ \C-r" `recentf-open-files)
-    (run-at-time nil 5 (lambda () (shut-up 'recentf-save-list))))
+  (recentf-mode 1)
+  (run-at-time nil 5 (lambda () (shut-up 'recentf-save-list))))
 
 (use-package projectile
   :config
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-    (projectile-mode +1)
-    (setq projectile-use-git-grep t)
-    (setq projectile-indexing-method 'alien)
-    (setq projectile-enable-caching t))
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1)
+  (setq projectile-use-git-grep t)
+  (setq projectile-indexing-method 'alien)
+  (setq projectile-enable-caching t))
 
-(use-package ripgrep)
-
-(use-package projectile-ripgrep
-  :after (ripgrep projectile helm-rg))
-
-(use-package helm-rg
-  :after (helm ripgrep)
+(use-package helm-projectile
+  :after (helm projectile)
   :config
-  (setq helm-rg-default-directory 'git-root))
+  (setq projectile-completion-system `helm)
+  (helm-projectile-on))
 
 (use-package helm-ag
   :after helm
   :config
-    (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
-    (setq helm-ag-command-option "--all-text")
-    (setq helm-ag-insert-at-point 'symbol))
+  (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
+  (setq helm-ag-command-option "--all-text")
+  (setq helm-ag-insert-at-point 'symbol))
 
-(use-package helm-projectile
-  :after helm
-  :after projectile
-  :config
-    (setq projectile-completion-system `helm)
-    (helm-projectile-on))
+
 
 (use-package dockerfile-mode
   :config
-    (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
 (use-package yaml-mode)
+
+(use-package terraform-mode)
 
 (use-package lsp-mode)
 
 (use-package go-mode
   :requires lsp-mode
   :config
-    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
-    (add-hook 'go-mode-hook 'lsp-deferred))
+  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+  (add-hook 'go-mode-hook 'lsp-deferred))
 
 
 (defun md2html (buffer)
@@ -191,13 +164,10 @@
   :config
     (httpd-start))
 
+
 (use-package typescript-mode
   :init
   (setq typescript-indent-level 4))
-
-(use-package flycheck
-  :config
-  (global-flycheck-mode))
 
 (defun setup-tide ()
   (tide-setup)
@@ -220,13 +190,42 @@
                 (when (string-equal "tsx" (file-name-extension buffer-file-name))
                   (setup-tide)))))
 
-(global-linum-mode t)
-(setq linum-format "%d ")
 
 (require 'server)
 (defun server-ensure-safe-dir (dir) "Noop" t)
 
+
+(setq org-hide-emphasis-markers t)
+
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(scroll-bar-mode 0)
+(toggle-frame-fullscreen)
+(fset `yes-or-no-p `y-or-n-p)
+
+(global-set-key (kbd "M-]") `next-buffer)
+(global-set-key (kbd "M-[") `previous-buffer)
+
+(windmove-default-keybindings `meta)
+
+(global-linum-mode t)
+(setq linum-format "%d ")
 (setq visible-bell 1)
+
+(winner-mode 1)
+
+(setq backup-directory-alist `(("." . "~/.backups")))
+
+(setq-default tab-width 2)
+(setq-default standard-indent 2)
+
+(add-hook 'find-file-hook 'infer-indents)
+(defun infer-indents ()
+  (let ((space-count (how-many "^  " (point-min) (point-max)))
+        (tab-count (how-many "^\t" (point-min) (point-max))))
+    (if (> space-count tab-count) (setq indent-tabs-mode nil))
+    (if (> tab-count space-count) (setq indent-tabs-mode t))))
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -237,10 +236,10 @@
    (quote
     ("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
  '(evil-shift-width 2)
- '(org-hide-emphasis-markers t t)
+ '(org-hide-emphasis-markers t)
  '(package-selected-packages
    (quote
-    (quelpa-use-package quelpa impatient-mode esup shut-up lsp-mode go-mode projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil)))
+    (general evil-collection smartparens which-key quelpa-use-package quelpa impatient-mode esup shut-up lsp-mode go-mode projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil)))
  '(scroll-error-top-bottom t)
  '(tab-width 2))
 
