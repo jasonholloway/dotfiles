@@ -39,12 +39,10 @@
   (show-smartparens-global-mode t))
 
 (use-package flycheck
-  :after evil
+  :init
+  (setq flycheck-keymap-prefix (kbd "C-c e"))
   :config
-  (global-flycheck-mode)
-  (define-key flycheck-mode-map (kbd "C-c e n") 'flycheck-next-error)
-  (define-key flycheck-mode-map (kbd "C-c e p") 'flycheck-previous-error)
-  (define-key flycheck-mode-map (kbd "C-c e l") 'flycheck-list-errors))
+  (global-flycheck-mode))
 
 (use-package magit
   :config
@@ -173,6 +171,7 @@
   (setq typescript-indent-level 4))
 
 (defun setup-tide ()
+  "Setup Tide."
   (tide-setup)
   (flycheck-mode 1)
   (company-mode 1)
