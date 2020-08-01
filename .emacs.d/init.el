@@ -34,6 +34,7 @@
 
 (use-package smartparens
   :config
+  (require 'smartparens-config)
   (setq sp-show-pair-delay 0)
   (smartparens-global-mode t)
   (show-smartparens-global-mode t))
@@ -60,11 +61,6 @@
   :config
   (key-chord-mode 1))
 
-;; todo
-;; company return should select
-;; sp shouldn't do second single-quote or backtick in lisp mode
-;;
-
 (use-package evil
   :requires key-chord
   :init
@@ -88,15 +84,14 @@
 
 (use-package helm
   :config
-    (global-set-key (kbd "M-x") `helm-M-x)
-
-    (global-set-key (kbd "C-x b") `helm-mini)
-    (global-set-key (kbd "C-x C-f") `helm-find-files)
-    (setq helm-mini-default-sources
-	  `(helm-source-buffers-list
-	    helm-source-recentf
-	    helm-source-bookmarks
-	    helm-source-buffer-not-found)))
+  (global-set-key (kbd "M-x") `helm-M-x)
+  (global-set-key (kbd "C-x b") `helm-mini)
+  (global-set-key (kbd "C-x C-f") `helm-find-files)
+  (setq helm-mini-default-sources
+        `(helm-source-buffers-list
+          helm-source-recentf
+          helm-source-bookmarks
+          helm-source-buffer-not-found)))
 
 (use-package shut-up)
 
@@ -167,8 +162,10 @@
 
 
 (use-package typescript-mode
-  :init
-  (setq typescript-indent-level 4))
+  :config
+  (setq typescript-indent-level 4)
+  (define-key typescript-mode-map (kbd "C-c t r") 'tide-rename-symbol)
+  (define-key typescript-mode-map (kbd "C-c t R") 'tide-rename-file))
 
 (defun setup-tide ()
   "Setup Tide."
