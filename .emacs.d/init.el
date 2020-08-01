@@ -7,10 +7,10 @@
 (add-to-list `package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 
 (unless (package-installed-p 'quelpa)
-    (with-temp-buffer
-      (url-insert-file-contents "https://github.com/quelpa/quelpa/raw/master/quelpa.el")
-      (eval-buffer)
-      (quelpa-self-upgrade)))
+  (with-temp-buffer
+    (url-insert-file-contents "https://github.com/quelpa/quelpa/raw/master/quelpa.el")
+    (eval-buffer)
+    (quelpa-self-upgrade)))
 
 (quelpa
  '(quelpa-use-package
@@ -161,33 +161,50 @@
     (httpd-start))
 
 
-(use-package typescript-mode
-  :config
-  (setq typescript-indent-level 4)
-  (define-key typescript-mode-map (kbd "C-c t r") 'tide-rename-symbol)
-  (define-key typescript-mode-map (kbd "C-c t R") 'tide-rename-file))
-
 (defun setup-tide ()
-  "Setup Tide."
+  "Setup Tide for any mode that does typescripty things."
   (tide-setup)
   (flycheck-mode 1)
   (company-mode 1)
-  (tide-hl-identifier-mode +1))
+  (tide-hl-identifier-mode +1)
+  (general-define-key
+   :states 'normal
+   :keymaps 'local
+   :prefix "C-c t"
+   "f" 'tide-fix
+   "F" 'tide-refactor
+   "r" 'tide-rename-symbol
+   "R" 'tide-rename-file
+   "e" 'tide-error-at-point
+   "E" 'tide-project-errors
+   "g" 'tide-jump-to-definition
+   "g" 'tide-jump-to-implementation
+   "p" 'tide-format)
+  (general-define-key
+   :states 'normal
+   :keymaps 'local
+   "M-n" 'flycheck-next-error
+   "M-p" 'flycheck-previous-error
+   "M-l" 'flycheck-list-errors
+   ))
+
+(use-package typescript-mode
+  :config
+  (setq typescript-indent-level 4))
 
 (use-package tide
   :after (typescript-mode company flycheck)
-  :hook (typescript-mode . setup-tide))
+  :hook ((typescript-mode . setup-tide)
+         (web-mode . (lambda ()
+                       (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                         (setup-tide))))))
 
 (use-package web-mode
   :after flycheck
   :config
   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
   (flycheck-add-mode 'typescript-tslint 'web-mode)
-  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White")
-  :hook
-  (web-mode . (lambda ()
-                (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                  (setup-tide)))))
+  (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White"))
 
 
 (require 'server)
