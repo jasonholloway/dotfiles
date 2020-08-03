@@ -1,0 +1,17 @@
+Font=Consolas
+FontHeight=12
+FontSmoothing=full
+SwitchShortcuts=no
+ZoomShortcuts=yes
+Term=xterm-256color
+ThemeFile=xterm
+BackgroundColour=3,2,32
+ScrollMod=off
+Scrollbar=none
+CursorType=block
+BoldAsFont=yes
+BoldAsColour=no
+AltFnShortcuts=no
+ClickTargetMod=off
+PgUpDnScroll=no
+BellType=0
