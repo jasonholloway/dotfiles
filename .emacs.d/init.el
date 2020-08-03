@@ -232,6 +232,8 @@
 (setq-default tab-width 2)
 (setq-default standard-indent 2)
 
+(setq tramp-default-method "ssh")
+
 (add-hook 'find-file-hook 'infer-indents)
 (defun infer-indents ()
   "Chooses tabs or spaces depending on buffer."
