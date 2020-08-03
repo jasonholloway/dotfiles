@@ -240,6 +240,11 @@
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t))))
 
+(cond
+ ((string-equal system-type "windows-nt")
+  (progn
+    (setq gc-cons-threshold 100000000)
+    (add-hook 'window-setup-hook 'toggle-frame-fullscreen t))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
