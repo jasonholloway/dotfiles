@@ -1,3 +1,6 @@
+# autoload -Uz compinit
+# compinit
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
@@ -6,10 +9,9 @@ unsetopt beep
 bindkey -e
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/jason/.zshrc'
 
-autoload -Uz compinit
-compinit
+# zstyle ':completion:*' completer _complete _ignored
+# zstyle :compinstall filename '/home/jason/.zshrc'
 
 # End of lines added by compinstall
 # If you come from bash you might have to change your $PATH.
@@ -82,7 +84,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git ssh-agent docker dotnet)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -136,13 +138,15 @@ git_choose_branch() {
 
   if [ $? -eq 0 -a ! -z "$branch" ]; then
     if [ ! -z "$buffer" ]; then
+      zle reset-prompt
       zle -U "$branch"
+      zle reset-prompt
     else
+      zle reset-prompt
       git checkout "$branch"
+      zle reset-prompt
     fi
   fi
-
-  zle reset-prompt
 }
 
 zle -N git_choose_branch
