@@ -146,25 +146,37 @@
 ;; markdown
 (defun md2html (buffer)
   "Convert BUFFER of Markdown into a html string."
-  (princ (with-current-buffer buffer
-    (format "<!DOCTYPE html><html><title>Impatient Markdown</title><xmp theme=\"united\" style=\"display:none;\"> %s  </xmp><script src=\"http://strapdownjs.com/v/0.2/strapdown.js\"></script></html>" (buffer-substring-no-properties (point-min) (point-max))))
+  (princ
+   (with-temp-buffer
+     (let ((tmp (buffer-name)))
+       (set-buffer buffer)
+       (set-buffer (markdown tmp))
+       (format "<!DOCTYPE html><html><title>Markdown preview</title><link rel=\"stylesheet\" href = \"https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/3.0.1/github-markdown.min.css\"/>
+<body><article class=\"markdown-body\" style=\"box-sizing: border-box;min-width: 200px;max-width: 980px;margin: 0 auto;padding: 45px;\">%s</article></body></html>" (buffer-string))))
   (current-buffer)))
 
+(defun md-preview ()
+  "Preview markdown file"
+  (interactive)
+  (unless (process-status "httpd")
+    (httpd-start))
+  (impatient-mode)
+  (imp-set-user-filter 'md2html)
+  (imp-visit-buffer))
+
 (use-package simple-httpd
-  :quelpa)
+  :quelpa
+  :config (setq httpd-port 1777))
 
 (use-package markdown-mode
-  :requires impatient-mode
-  :config (imp-set-user-filter 'md2html))
-
-(setq exec-path (append exec-path '("/home/jason/.nvm/versions/node/v10.14.1/bin")))
+  :quelpa
+  :mode ("\\.md\\'" . gfm-mode)
+  :commands (markdown-mode gfm-mode)
+  :config
+    (setq markdown-command "pandoc -t html5"))
 
 (use-package impatient-mode
-  :quelpa
-  :requires simple-httpd
-  :hook markdown-mode
-  :config
-    (httpd-start))
+  :quelpa)
 
 
 ;; go
