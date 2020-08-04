@@ -84,9 +84,20 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git ssh-agent docker dotnet)
+plugins=(git ssh-agent docker kubectl nvm kubectl)
 
 source $ZSH/oh-my-zsh.sh
+
+export PATH="$PATH:$HOME/.bin:${HOME}/.krew/bin"
+export NVM_DIR="$HOME/.nvm"
+export VISUAL=vim
+export EDITOR="$VISUAL"
+export TERM=xterm-256color
+
+alias em='emacsclient -c'
+alias tf=terraform
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # User configuration
 
