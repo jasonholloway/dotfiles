@@ -21,11 +21,20 @@ HYPHEN_INSENSITIVE="true"
 COMPLETION_WAITING_DOTS="true"
 # ENABLE_CORRECTION="true"
 
-plugins=(git ssh-agent docker dotnet)
+plugins=(git ssh-agent docker kubectl nvm kubectl)
 
 source $ZSH/oh-my-zsh.sh
 
+export PATH="$PATH:$HOME/.bin:${HOME}/.krew/bin"
+export NVM_DIR="$HOME/.nvm"
+export VISUAL=vim
+export EDITOR="$VISUAL"
+export TERM=xterm-256color
+
 alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
+alias tf=terraform
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 choose_project() {
   prefix="$HOME/src"
