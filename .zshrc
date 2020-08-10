@@ -1,4 +1,4 @@
-source .zprofile
+source ~/.zprofile
 
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
@@ -7,6 +7,9 @@ SAVEHIST=1000
 unsetopt beep
 bindkey -e
 # End of lines configured by zsh-newuser-install
+
+export ZSH=~/.oh-my-zsh
+
 # The following lines were added by compinstall
 
 # zstyle ':completion:*' completer _complete _ignored
@@ -26,7 +29,7 @@ source $ZSH/oh-my-zsh.sh
 alias em="emacsclient -c -F \"'(fullscreen . maximized)\""
 
 choose_project() {
-  prefix="/c/src"
+  prefix="~/src"
   query="$(ls ""$prefix"" | fzy -q ""$1"" -l 20)"
 
   if [ $? -eq 0 -a ! -z "$query" ]; then
