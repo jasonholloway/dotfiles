@@ -17,6 +17,8 @@
 	rom = rebase origin/master
 	po = push origin
 	pof = push origin -f
+	conflicts = diff --name-only --diff-filter=U
+	makeexec = !sh -c 'if [[ ${0: -3} == ".sh" ]]; then git update-index --chmod=+x $0; git add $0'
 [user]
 	name = Jason Holloway
 	email = jason.holloway@sorted.com
@@ -24,3 +26,5 @@
 	default = current
 [pull]
 	ff = only
+[diff]
+	tool = vimdiff
