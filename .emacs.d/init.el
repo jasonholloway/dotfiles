@@ -2,9 +2,10 @@
 (setq package-check-signature nil)
 (package-initialize)
 
-(add-to-list `package-archives '("melpa" . "http://melpa.org/packages/") t)
-(add-to-list `package-archives '("marmalade" . "http://marmalade.ferrier.me.uk/packages/"))
-(add-to-list `package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade.ferrier.me.uk/packages/"))
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
 
 (unless (package-installed-p 'quelpa)
   (with-temp-buffer
@@ -45,11 +46,6 @@
   :config
   (global-flycheck-mode))
 
-(use-package magit
-  :config
-  (global-set-key (kbd "C-x g") 'magit-status)
-  (global-set-key (kbd "C-x M-g") 'magit-dispatch))
-
 (use-package company
   :config
   (setq company-dabbrev-downcase nil)
@@ -60,6 +56,7 @@
 (use-package key-chord
   :config
   (key-chord-mode 1))
+
 
 (use-package evil
   :requires key-chord
@@ -82,6 +79,29 @@
   (global-evil-surround-mode t))
 
 
+(use-package magit
+  :config
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (global-set-key (kbd "C-x M-g") 'magit-dispatch))
+
+(use-package shut-up)
+
+(use-package recentf
+  :requires shut-up
+  :config
+  (recentf-mode 1)
+  (run-at-time nil 5 (lambda () (shut-up 'recentf-save-list))))
+
+
+(use-package projectile
+  :config
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (projectile-mode +1)
+  (setq projectile-use-git-grep t)
+  (setq projectile-indexing-method 'alien)
+  (setq projectile-enable-caching t))
+
+
 (use-package helm
   :config
   (global-set-key (kbd "M-x") `helm-M-x)
@@ -92,22 +112,6 @@
           helm-source-recentf
           helm-source-bookmarks
           helm-source-buffer-not-found)))
-
-(use-package shut-up)
-
-(use-package recentf
-  :requires shut-up
-  :config
-  (recentf-mode 1)
-  (run-at-time nil 5 (lambda () (shut-up 'recentf-save-list))))
-
-(use-package projectile
-  :config
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (projectile-mode +1)
-  (setq projectile-use-git-grep t)
-  (setq projectile-indexing-method 'alien)
-  (setq projectile-enable-caching t))
 
 (use-package helm-projectile
   :after (helm projectile)
@@ -127,19 +131,18 @@
   :config
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
+(use-package terraform-mode)
+
 (use-package yaml-mode)
 
-(use-package terraform-mode)
+(use-package salt-mode)
+
+(use-package nginx-mode)
 
 (use-package lsp-mode)
 
-(use-package go-mode
-  :requires lsp-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
-  (add-hook 'go-mode-hook 'lsp-deferred))
 
-
+;; markdown
 (defun md2html (buffer)
   "Convert BUFFER of Markdown into a html string."
   (princ (with-current-buffer buffer
@@ -153,6 +156,8 @@
   :requires impatient-mode
   :config (imp-set-user-filter 'md2html))
 
+(setq exec-path (append exec-path '("/home/jason/.nvm/versions/node/v10.14.1/bin")))
+
 (use-package impatient-mode
   :quelpa
   :requires simple-httpd
@@ -161,6 +166,41 @@
     (httpd-start))
 
 
+;; go
+(use-package go-mode
+  :requires lsp-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+  (add-hook 'go-mode-hook 'lsp-deferred))
+
+
+;; scala
+(use-package ensime
+  :pin melpa
+  :config
+  (setq ensime-startup-notification `nil))
+
+
+;; csharp
+(use-package csharp-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.csproj\\'" . csharp-mode))
+  (add-to-list 'auto-mode-alist '("\\.sln\\'" . csharp-mode))
+  (add-to-list 'auto-mode-alist '("\\.cake\\'" . csharp-mode)))
+
+(use-package omnisharp
+  :after (flycheck company csharp-mode)
+  :config
+  (setq omnisharp-server-executable-path "/opt/omnisharp/OmniSharp.exe")
+  (add-hook 'csharp-mode-hook 'omnisharp-mode)
+  (add-hook 'csharp-mode-hook 'company-mode)
+  (add-hook 'csharp-mode-hook 'flycheck-mode)
+  (add-to-list 'company-backends 'company-omnisharp)
+  (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
+  (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete))
+
+
+;; typescript stuff
 (defun setup-tide ()
   "Setup Tide for any mode that does typescripty things."
   (tide-setup)
@@ -192,6 +232,10 @@
   :config
   (setq typescript-indent-level 4))
 
+(use-package js2-mode
+  :init
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
+
 (use-package tide
   :after (typescript-mode company flycheck)
   :hook ((typescript-mode . setup-tide)
@@ -207,32 +251,30 @@
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White"))
 
 
-(require 'server)
-(defun server-ensure-safe-dir (dir) "Noop" t)
+;; prolog stuff
+(add-hook 'prolog-mode-hook (lambda () set-prolog-system 'gprolog))
 
 
-(setq org-hide-emphasis-markers t)
+;; haskell stuff
+(use-package haskell-mode
+  :config
+  (define-key haskell-mode-map [f8] 'haskell-navigate-imports))
 
-(tool-bar-mode 0)
-(menu-bar-mode 0)
-(scroll-bar-mode 0)
-(toggle-frame-fullscreen)
-(fset `yes-or-no-p `y-or-n-p)
+(use-package hindent
+  :after haskell-mode
+  :config
+    (add-hook 'haskell-mode-hook 'hindent-mode))
 
-(windmove-default-keybindings `meta)
-
-(global-linum-mode t)
-(setq linum-format "%d ")
-(setq visible-bell 1)
-
-(winner-mode 1)
-
-(setq backup-directory-alist `(("." . "~/.backups")))
-
-(setq-default tab-width 2)
-(setq-default standard-indent 2)
+(use-package intero
+  :after haskell-mode
+  :config
+    (add-hook 'haskell-mode-hook 'intero-mode))
 
 (setq tramp-default-method "ssh")
+
+(use-package helm-hoogle
+  :after haskell-mode)
+
 
 (add-hook 'find-file-hook 'infer-indents)
 (defun infer-indents ()
@@ -242,11 +284,38 @@
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t))))
 
+
 (cond
  ((string-equal system-type "windows-nt")
   (progn
     (setq gc-cons-threshold 100000000)
     (add-hook 'window-setup-hook 'toggle-frame-fullscreen t))))
+
+
+(require 'server)
+(defun server-ensure-safe-dir (dir) "Noop" t)
+
+
+;; common
+(global-linum-mode t)
+(setq linum-format "%d ")
+(setq visible-bell 1)
+
+(winner-mode 1)
+(windmove-default-keybindings `meta)
+
+(setq backup-directory-alist `(("." . "~/.backups")))
+(setq-default tab-width 2)
+(setq-default standard-indent 2)
+
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(scroll-bar-mode 0)
+(toggle-frame-fullscreen)
+(fset `yes-or-no-p `y-or-n-p)
+
+(setq org-hide-emphasis-markers t)
+
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -265,6 +334,9 @@
     ("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
  '(evil-shift-width 2)
  '(org-hide-emphasis-markers t t)
+ '(org-hide-emphasis-markers t)
+ '(org-hide-leading-stars t)
+ '(org-image-actual-width 100)
  '(package-selected-packages
    (quote
     (general evil-collection smartparens which-key quelpa-use-package quelpa impatient-mode esup shut-up lsp-mode go-mode projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil)))
