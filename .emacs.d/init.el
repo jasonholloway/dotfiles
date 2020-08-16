@@ -301,14 +301,16 @@
 (setq-default tab-width 2)
 (setq-default standard-indent 2)
 
-(tool-bar-mode 0)
 (menu-bar-mode 0)
-(scroll-bar-mode 0)
-(toggle-frame-fullscreen)
 (fset `yes-or-no-p `y-or-n-p)
 
 (setq org-hide-emphasis-markers t)
 
+(if (display-graphic-p)
+  (progn
+    (tool-bar-mode 0)
+    (scroll-bar-mode 0)
+    (toggle-frame-fullscreen)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
