@@ -299,9 +299,10 @@
     (setq gc-cons-threshold 100000000)
     (add-hook 'window-setup-hook 'toggle-frame-fullscreen t))))
 
-
 (require 'server)
 (defun server-ensure-safe-dir (dir) "Noop" t)
+(setq server-socket-dir "~/.emacs.d/server/")
+(setq server-auth-dir "~/.emacs.d/server/")
 
 
 ;; common

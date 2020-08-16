@@ -25,8 +25,7 @@ plugins=(git ssh-agent docker dotnet)
 
 source $ZSH/oh-my-zsh.sh
 
-
-alias em="emacsclient -c -F \"'(fullscreen . maximized)\""
+alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
 
 choose_project() {
   prefix="$HOME/src"
