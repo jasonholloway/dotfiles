@@ -174,13 +174,6 @@
   (add-hook 'go-mode-hook 'lsp-deferred))
 
 
-;; scala
-(use-package ensime
-  :pin melpa
-  :config
-  (setq ensime-startup-notification `nil))
-
-
 ;; csharp
 (use-package csharp-mode
   :config
