@@ -244,24 +244,23 @@
   (flycheck-add-mode 'typescript-tslint 'web-mode)
   (set-face-attribute 'web-mode-html-tag-bracket-face nil :foreground "White"))
 
-
 ;; prolog stuff
-(setq prolog-system 'swi
-      prolog-program-switches '((swi ("-G128M" "-T128M" "-L128M" "-O"))
-                                (t nil))
-      prolog-electric-underscore-flag t)
-
-(use-package ediprolog
-  :config
-  (setq ediprolog-system "swi")
-  (general-define-key
-   :states 'normal
-   :keymaps 'prolog-mode
-   :prefix "C-c"
-   "e" 'ediprolog-dwim))
+;;(setq prolog-system 'swi
+;;      prolog-program-switches '((swi ("-G128M" "-T128M" "-L128M" "-O"))
+;;                                (t nil))
+;;      prolog-electric-underscore-flag t)
+;;
+;;(use-package ediprolog
+;;  :config
+;;  (setq ediprolog-system "swi")
+;;  (general-define-key
+;;   :states 'normal
+;;   :keymaps 'prolog-mode
+;;   :prefix "C-c"
+;;   "e" 'ediprolog-dwim))
 
 (use-package pasp-mode
-  :quelpa ((pasp-mode :fetcher github :repo "https://github.com/llaisdy/pasp-mode") :update t))
+  :quelpa ((pasp-mode :fetcher github :repo "https://github.com/llaisdy/pasp-mode")))
 
 ;; haskell stuff
 (use-package haskell-mode
@@ -292,18 +291,15 @@
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t))))
 
-
 (cond
  ((string-equal system-type "windows-nt")
   (progn
+    (defun server-ensure-safe-dir (dir) "Noop" t)
     (setq gc-cons-threshold 100000000)
     (add-hook 'window-setup-hook 'toggle-frame-fullscreen t))))
 
-(require 'server)
-(defun server-ensure-safe-dir (dir) "Noop" t)
 (setq server-socket-dir "~/.emacs.d/server/")
 (setq server-auth-dir "~/.emacs.d/server/")
-
 
 ;; common
 (global-linum-mode t)
@@ -318,13 +314,13 @@
 (setq-default standard-indent 2)
 
 (menu-bar-mode 0)
+(tool-bar-mode 0)
 (fset `yes-or-no-p `y-or-n-p)
 
 (setq org-hide-emphasis-markers t)
 
 (if (display-graphic-p)
   (progn
-    (tool-bar-mode 0)
     (scroll-bar-mode 0)
     (toggle-frame-fullscreen)))
 
