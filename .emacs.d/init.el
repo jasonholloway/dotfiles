@@ -22,6 +22,7 @@
   (require 'quelpa-use-package)
   (require 'use-package))
 
+(setq use-package-ensure-function 'quelpa)
 (setq use-package-always-ensure t)
 
 (use-package monokai-theme
@@ -245,8 +246,22 @@
 
 
 ;; prolog stuff
-(add-hook 'prolog-mode-hook (lambda () set-prolog-system 'gprolog))
+(setq prolog-system 'swi
+      prolog-program-switches '((swi ("-G128M" "-T128M" "-L128M" "-O"))
+                                (t nil))
+      prolog-electric-underscore-flag t)
 
+(use-package ediprolog
+  :config
+  (setq ediprolog-system "swi")
+  (general-define-key
+   :states 'normal
+   :keymaps 'prolog-mode
+   :prefix "C-c"
+   "e" 'ediprolog-dwim))
+
+(use-package pasp-mode
+  :quelpa ((pasp-mode :fetcher github :repo "https://github.com/llaisdy/pasp-mode") :update t))
 
 ;; haskell stuff
 (use-package haskell-mode
