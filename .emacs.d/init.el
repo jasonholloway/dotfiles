@@ -294,9 +294,15 @@
 (cond
  ((string-equal system-type "windows-nt")
   (progn
-    (defun server-ensure-safe-dir (dir) "Noop" t)
     (setq gc-cons-threshold 100000000)
     (add-hook 'window-setup-hook 'toggle-frame-fullscreen t))))
+
+(defadvice server-ensure-safe-dir
+    (around
+     my-around-server-ensure-safe-dir
+     activate)
+  "suppresses fatal error when server dir unsafe (on Windows unavoidable)"
+  (ignore-errors ad-do-it))
 
 (setq server-socket-dir "~/.emacs.d/server/")
 (setq server-auth-dir "~/.emacs.d/server/")
@@ -305,6 +311,7 @@
 (global-linum-mode t)
 (setq linum-format "%d ")
 (setq visible-bell 1)
+(setq vc-follow-symlinks nil)
 
 (winner-mode 1)
 (windmove-default-keybindings `meta)
