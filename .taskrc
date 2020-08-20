@@ -1,3 +1,6 @@
 data.location=~/.task
+weekstart=monday
+journal.time=on
 search.case.sensitive=no
+default.command=ready
 
