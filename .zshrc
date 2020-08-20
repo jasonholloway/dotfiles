@@ -21,11 +21,12 @@ HYPHEN_INSENSITIVE="true"
 COMPLETION_WAITING_DOTS="true"
 # ENABLE_CORRECTION="true"
 
-plugins=(git ssh-agent docker dotnet)
+plugins=(git ssh-agent docker dotnet taskwarrior)
 
 source $ZSH/oh-my-zsh.sh
 
 alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
+alias t="task"
 
 choose_project() {
   prefix="$HOME/src"
