@@ -1,10 +1,12 @@
 [core]
 	fscache = true
+	autocrlf = false
 [credential]
 	helper = manager
 [alias]
 	st = status
 	co = checkout
+	cp = cherry-pick
 	br = branch
 	cm = commit -m
 	lg = log --graph --oneline
