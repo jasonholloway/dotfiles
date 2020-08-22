@@ -1,30 +1,27 @@
 (require `package)
 (setq package-check-signature nil)
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
-(add-to-list 'package-archives '("marmalade" . "http://marmalade.ferrier.me.uk/packages/"))
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/"))
-
-(unless (package-installed-p 'quelpa)
-  (with-temp-buffer
-    (url-insert-file-contents "https://github.com/quelpa/quelpa/raw/master/quelpa.el")
-    (eval-buffer)
-    (quelpa-self-upgrade)))
-
-(quelpa
- '(quelpa-use-package
-   :fetcher git
-   :url "https://github.com/quelpa/quelpa-use-package.git"))
-
-(eval-when-compile
-  (require 'quelpa-use-package)
-  (require 'use-package))
-
-(setq use-package-ensure-function 'quelpa)
+(require 'use-package)
 (setq use-package-always-ensure t)
 
+(use-package quelpa
+  :demand t
+  :init
+  (setq quelpa-update-melpa-p nil)
+  (setq quelpa-use-package-inhibit-loading-quelpa t)
+  ;;(setq use-package-ensure-function 'quelpa)
+  (unless (package-installed-p 'quelpa-use-package)
+    (quelpa
+     '(quelpa-use-package
+       :fetcher git
+       :url "https://github.com/quelpa/quelpa-use-package.git")))
+  (require 'quelpa-use-package))
+
+
+;; various packages
 (use-package monokai-theme
   :config (load-theme `monokai t))
 
@@ -68,7 +65,8 @@
   (evil-mode 1))
 
 (use-package evil-collection
-  :after evil
+  :requires evil
+  :demand t
   :custom
   (evil-collection-setup-minibuffer t)
   :init
@@ -151,7 +149,8 @@
   (current-buffer)))
 
 (use-package simple-httpd
-  :quelpa)
+  :quelpa
+  (:upgrade nil))
 
 (use-package markdown-mode
   :requires impatient-mode
@@ -161,6 +160,7 @@
 
 (use-package impatient-mode
   :quelpa
+  (:upgrade nil)
   :requires simple-httpd
   :hook markdown-mode
   :config
@@ -186,9 +186,9 @@
   :after (flycheck company csharp-mode)
   :config
   (setq omnisharp-server-executable-path "/opt/omnisharp/OmniSharp.exe")
-  (add-hook 'csharp-mode-hook 'omnisharp-mode)
-  (add-hook 'csharp-mode-hook 'company-mode)
-  (add-hook 'csharp-mode-hook 'flycheck-mode)
+;;   (add-hook 'csharp-mode-hook 'omnisharp-mode)
+;;   (add-hook 'csharp-mode-hook 'company-mode)
+;;   (add-hook 'csharp-mode-hook 'flycheck-mode)
   (add-to-list 'company-backends 'company-omnisharp)
   (define-key omnisharp-mode-map (kbd ".") 'omnisharp-add-dot-and-auto-complete)
   (define-key omnisharp-mode-map (kbd "<C-SPC>") 'omnisharp-auto-complete))
@@ -260,7 +260,8 @@
 ;;   "e" 'ediprolog-dwim))
 
 (use-package pasp-mode
-  :quelpa ((pasp-mode :fetcher github :repo "https://github.com/llaisdy/pasp-mode")))
+  :quelpa ((pasp-mode :fetcher github :repo "https://github.com/llaisdy/pasp-mode"))
+  (:upgrade nil))
 
 ;; haskell stuff
 (use-package haskell-mode
@@ -344,16 +345,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   (quote
-    ("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
+   '("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default))
  '(evil-shift-width 2)
  '(org-hide-emphasis-markers t t)
- '(org-hide-emphasis-markers t)
  '(org-hide-leading-stars t)
  '(org-image-actual-width 100)
  '(package-selected-packages
-   (quote
-    (general evil-collection smartparens which-key quelpa-use-package quelpa impatient-mode esup shut-up lsp-mode go-mode projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil)))
+   '(general evil-collection smartparens which-key quelpa-use-package quelpa impatient-mode esup shut-up lsp-mode go-mode projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil))
  '(scroll-error-top-bottom t)
  '(tab-width 2))
 
