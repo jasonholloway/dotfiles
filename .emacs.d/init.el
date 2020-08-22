@@ -3,21 +3,24 @@
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
+;;(package-refresh-contents)
 
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 (require 'use-package)
 (setq use-package-always-ensure t)
 
 (use-package quelpa
   :demand t
   :init
+  (setq quelpa-upgrade-p nil)
   (setq quelpa-update-melpa-p nil)
   (setq quelpa-use-package-inhibit-loading-quelpa t)
-  ;;(setq use-package-ensure-function 'quelpa)
   (unless (package-installed-p 'quelpa-use-package)
     (quelpa
      '(quelpa-use-package
-       :fetcher git
-       :url "https://github.com/quelpa/quelpa-use-package.git")))
+       :fetcher github
+       :repo "quelpa/quelpa-use-package")))
   (require 'quelpa-use-package))
 
 
@@ -126,6 +129,13 @@
   (setq helm-ag-insert-at-point 'symbol))
 
 
+(use-package profile-dotemacs
+  :quelpa
+  ((profile-dotemacs
+    :fetcher github
+    :repo "raxod502/profile-dotemacs")))
+
+
 (use-package dockerfile-mode
   :config
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
@@ -149,8 +159,7 @@
   (current-buffer)))
 
 (use-package simple-httpd
-  :quelpa
-  (:upgrade nil))
+  :quelpa)
 
 (use-package markdown-mode
   :requires impatient-mode
@@ -160,7 +169,6 @@
 
 (use-package impatient-mode
   :quelpa
-  (:upgrade nil)
   :requires simple-httpd
   :hook markdown-mode
   :config
@@ -260,8 +268,7 @@
 ;;   "e" 'ediprolog-dwim))
 
 (use-package pasp-mode
-  :quelpa ((pasp-mode :fetcher github :repo "https://github.com/llaisdy/pasp-mode"))
-  (:upgrade nil))
+  :quelpa ((pasp-mode :fetcher github :repo "llaisdy/pasp-mode")))
 
 ;; haskell stuff
 (use-package haskell-mode
