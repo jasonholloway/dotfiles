@@ -1,3 +1,7 @@
+
+(defvar is-windows
+  (member system-type '(windows-nt cygwin)))
+
 (require `package)
 (setq package-check-signature nil)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
@@ -81,10 +85,14 @@
   (global-evil-surround-mode t))
 
 
-(use-package magit
-  :config
-  (global-set-key (kbd "C-x g") 'magit-status)
-  (global-set-key (kbd "C-x M-g") 'magit-dispatch))
+(if is-windows
+  (setq vc-handled-backends nil))
+
+(unless is-windows
+  (use-package magit
+    :config
+    (global-set-key (kbd "C-x g") 'magit-status)
+    (global-set-key (kbd "C-x M-g") 'magit-dispatch)))
 
 (use-package shut-up)
 
@@ -299,11 +307,8 @@
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t))))
 
-(cond
- ((string-equal system-type "windows-nt")
-  (progn
-    (setq gc-cons-threshold 100000000)
-    (add-hook 'window-setup-hook 'toggle-frame-fullscreen t))))
+(if is-windows (setq gc-cons-threshold 100000000))
+(if is-windows (add-hook 'window-setup-hook 'toggle-frame-fullscreen t))
 
 (defadvice server-ensure-safe-dir
     (around
@@ -358,7 +363,7 @@
  '(org-hide-leading-stars t)
  '(org-image-actual-width 100)
  '(package-selected-packages
-   '(general evil-collection smartparens which-key quelpa-use-package quelpa impatient-mode esup shut-up lsp-mode go-mode projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil))
+   '(profile-dotemacs general evil-collection smartparens which-key quelpa-use-package quelpa impatient-mode esup shut-up lsp-mode go-mode projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil))
  '(scroll-error-top-bottom t)
  '(tab-width 2))
 
