@@ -2,8 +2,11 @@
 (defvar is-windows
   (member system-type '(windows-nt cygwin)))
 
+(if is-windows (setq gc-cons-threshold 100000000))
+
+
 (require `package)
-(setq package-check-signature nil)
+;;(setq package-check-signature nil)
 (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
@@ -64,19 +67,16 @@
 
 
 (use-package evil
-  :requires key-chord
   :init
   (setq evil-want-keybinding nil)
-  (setq evil-want-integration t)
   :config
   (evil-mode 1))
 
 (use-package evil-collection
-  :requires evil
-  :demand t
+  :after evil
   :custom
   (evil-collection-setup-minibuffer t)
-  :init
+  :config
   (evil-collection-init))
 
 (use-package evil-surround
@@ -307,7 +307,6 @@
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t))))
 
-(if is-windows (setq gc-cons-threshold 100000000))
 (if is-windows (add-hook 'window-setup-hook 'toggle-frame-fullscreen t))
 
 (defadvice server-ensure-safe-dir
