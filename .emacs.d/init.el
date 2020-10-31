@@ -35,7 +35,8 @@
 (use-package monokai-theme
   :config (load-theme `monokai t))
 
-(use-package general)
+(use-package general
+  :config (general-evil-setup t))
 
 (use-package which-key
   :config
@@ -69,6 +70,7 @@
 (use-package evil
   :init
   (setq evil-want-keybinding nil)
+  (setq evil-want-C-u-scroll t)
   :config
   (evil-mode 1))
 
@@ -85,14 +87,42 @@
   (global-evil-surround-mode t))
 
 
+;; Treemacs
+(use-package treemacs
+  :hook (treemacs-mode . jh/treemacs-hook)
+  :init
+  (general-def 'normal
+    "C-b" 'treemacs)
+  (general-define-key
+   :states '(normal treemacs)
+   :keymaps '(treemacs-mode-map)
+    "C-b" 'treemacs
+    "M-j" 'treemacs-next-neighbour
+    "M-k" 'treemacs-previous-neighbour
+    "h" 'treemacs-collapse-parent-node
+    "M-h" 'treemacs-goto-parent-node
+    "l" 'treemacs-TAB-action
+    "M-l" 'treemacs-RET-action)
+  (defun jh/treemacs-hook ()
+    (display-line-numbers-mode -1)
+    (linum-mode -1)))
+
+;; (use-package treemacs-evil
+;;   :after (treemacs evil))
+
+(use-package treemacs-projectile
+  :after (treemacs projectile))
+
+
 (if is-windows
   (setq vc-handled-backends nil))
 
 (unless is-windows
   (use-package magit
     :config
-    (global-set-key (kbd "C-x g") 'magit-status)
-    (global-set-key (kbd "C-x M-g") 'magit-dispatch)))
+    (general-define-key
+     "C-x g" 'magit-status
+     "C-x M-g" 'magit-dispatch)))
 
 (use-package shut-up)
 
@@ -182,6 +212,8 @@
   :config
     (httpd-start))
 
+(use-package beacon
+  :config (beacon-mode t))
 
 ;; go
 (use-package go-mode
@@ -240,7 +272,7 @@
 
 (use-package typescript-mode
   :config
-  (setq typescript-indent-level 4))
+  (setq typescript-indent-level 2))
 
 (use-package js2-mode
   :init
@@ -288,15 +320,27 @@
   :config
     (add-hook 'haskell-mode-hook 'hindent-mode))
 
-(use-package intero
-  :after haskell-mode
-  :config
-    (add-hook 'haskell-mode-hook 'intero-mode))
+(use-package attrap)
 
-(setq tramp-default-method "ssh")
+(use-package dante
+  :after haskell-mode
+  :commands 'dante-mode
+  :init
+  (add-hook 'haskell-mode-hook 'flycheck-mode)
+  (add-hook 'haskell-mode-hook 'dante-mode)
+  :config
+  (flycheck-add-next-checker 'haskell-dante '(info . haskell-hlint)))
+
+;; (use-package intero
+;;   :after haskell-mode
+;;   :config
+;;     (add-hook 'haskell-mode-hook 'intero-mode))
 
 (use-package helm-hoogle
   :after haskell-mode)
+
+
+(setq tramp-default-method "ssh")
 
 
 (add-hook 'find-file-hook 'infer-indents)
@@ -320,8 +364,8 @@
 (setq server-auth-dir "~/.emacs.d/server/")
 
 ;; common
-(global-linum-mode t)
-(setq linum-format "%d ")
+(global-display-line-numbers-mode t)
+;; (setq linum-format "%d ")               
 (setq visible-bell 1)
 (setq vc-follow-symlinks nil)
 
