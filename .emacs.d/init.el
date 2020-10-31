@@ -91,24 +91,31 @@
 (use-package treemacs
   :hook (treemacs-mode . jh/treemacs-hook)
   :init
+  (setq
+   treemacs-move-forward-on-expand t
+   treemacs-show-cursor nil)
   (general-def 'normal
     "C-b" 'treemacs)
-  (general-define-key
-   :states '(normal treemacs)
-   :keymaps '(treemacs-mode-map)
-    "C-b" 'treemacs
-    "M-j" 'treemacs-next-neighbour
-    "M-k" 'treemacs-previous-neighbour
-    "h" 'treemacs-collapse-parent-node
-    "M-h" 'treemacs-goto-parent-node
-    "l" 'treemacs-TAB-action
-    "M-l" 'treemacs-RET-action)
   (defun jh/treemacs-hook ()
     (display-line-numbers-mode -1)
     (linum-mode -1)))
 
-;; (use-package treemacs-evil
-;;   :after (treemacs evil))
+(use-package treemacs-evil
+  :after (treemacs evil)
+  :config
+  (general-define-key
+   :states 'treemacs
+   :keymaps 'treemacs-mode-map
+    "C-b" 'treemacs
+    "M-j" 'treemacs-next-neighbour
+    "M-k" 'treemacs-previous-neighbour
+    "h"   'treemacs-collapse-parent-node
+    "M-h" 'treemacs-goto-parent-node
+    "l"   'treemacs-TAB-action
+    "M-l" 'treemacs-RET-action
+    "p"   'treemacs-peek
+    "H"   'treemacs-root-up
+    "L"   'treemacs-root-down))
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
