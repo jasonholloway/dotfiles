@@ -114,11 +114,17 @@
     "l"   'treemacs-TAB-action
     "M-l" 'treemacs-RET-action
     "p"   'treemacs-peek
+    "b"   'treemacs-peek
     "H"   'treemacs-root-up
     "L"   'treemacs-root-down))
 
 (use-package treemacs-projectile
   :after (treemacs projectile))
+
+
+(use-package nameless
+  :hook (emacs-lisp-mode . nameless-mode)
+  :init (setq nameless-private-prefix t))
 
 
 (if is-windows
@@ -393,6 +399,19 @@
   (progn
     (scroll-bar-mode 0)
     (toggle-frame-fullscreen)))
+
+
+(use-package amigo
+  ;; :quelpa (amigo :fetcher file :path "~/src/el/amigo")
+  :quelpa (amigo :fetcher github :path jasonholloway/amigo)
+  :config
+  (amigo-specify 'term
+                 '((params . ((side . right)))
+                   (get-context . (lambda () "Blah"))
+                   (get-buffer . (lambda () (get-buffer "*terminal*")))))
+  (general-define-key
+   "C-;" (lambda () (interactive) (amigo-toggle 'term))))
+
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
