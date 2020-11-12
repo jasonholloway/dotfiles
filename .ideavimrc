@@ -3,3 +3,5 @@ set surround
 set exchange
 set visualbell
 set noerrorbell
+
+set highlightedyank
