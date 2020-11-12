@@ -71,6 +71,7 @@
   :init
   (setq evil-want-keybinding nil)
   (setq evil-want-C-u-scroll t)
+  (setq evil-move-beyond-eol t)
   :config
   (evil-mode 1))
 
@@ -93,12 +94,15 @@
   :init
   (setq
    treemacs-move-forward-on-expand t
-   treemacs-show-cursor nil)
+   treemacs-show-cursor nil
+   )
   (general-def 'normal
-    "C-b" 'treemacs)
+    "C-;" 'treemacs)
   (defun jh/treemacs-hook ()
     (display-line-numbers-mode -1)
-    (linum-mode -1)))
+    (linum-mode -1))
+  (advice-add 'treemacs-visit-node-no-split
+              :after (lambda (_) (treemacs))))
 
 (use-package treemacs-evil
   :after (treemacs evil)
@@ -106,13 +110,13 @@
   (general-define-key
    :states 'treemacs
    :keymaps 'treemacs-mode-map
-    "C-b" 'treemacs
+    "C-;" 'treemacs
     "M-j" 'treemacs-next-neighbour
     "M-k" 'treemacs-previous-neighbour
     "h"   'treemacs-collapse-parent-node
     "M-h" 'treemacs-goto-parent-node
-    "l"   'treemacs-TAB-action
-    "M-l" 'treemacs-RET-action
+    "M-l" 'treemacs-TAB-action
+    "l"   'treemacs-RET-action
     "p"   'treemacs-peek
     "b"   'treemacs-peek
     "H"   'treemacs-root-up
@@ -402,15 +406,16 @@
 
 
 (use-package amigo
-  ;; :quelpa (amigo :fetcher file :path "~/src/el/amigo")
-  :quelpa (amigo :fetcher github :path jasonholloway/amigo)
-  :config
+  :quelpa (amigo
+           :fetcher github :path jasonholloway/amigo)
+           ;; :fetcher file :path "~/src/el/amigo")
+  :init
   (amigo-specify 'term
                  '((params . ((side . right)))
                    (get-context . (lambda () "Blah"))
-                   (get-buffer . (lambda () (get-buffer "*terminal*")))))
+                   (get-buffer . (lambda () (make-term "blah" "/bin/bash")))))
   (general-define-key
-   "C-;" (lambda () (interactive) (amigo-toggle 'term))))
+   "C-'" (lambda () (interactive) (amigo-toggle 'term))))
 
 
 (custom-set-faces
