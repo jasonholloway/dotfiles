@@ -97,7 +97,7 @@
    treemacs-show-cursor nil
    )
   (general-def 'normal
-    "C-;" 'treemacs)
+    "M-'" 'treemacs)
   (defun jh/treemacs-hook ()
     (display-line-numbers-mode -1)
     (linum-mode -1))
@@ -110,7 +110,7 @@
   (general-define-key
    :states 'treemacs
    :keymaps 'treemacs-mode-map
-    "C-;" 'treemacs
+    "M-'" 'treemacs
     "M-j" 'treemacs-next-neighbour
     "M-k" 'treemacs-previous-neighbour
     "h"   'treemacs-collapse-parent-node
@@ -407,7 +407,7 @@
 
 (use-package amigo
   :quelpa (amigo
-           :fetcher github :path jasonholloway/amigo)
+           :fetcher github :repo jasonholloway/amigo)
            ;; :fetcher file :path "~/src/el/amigo")
   :init
   (amigo-specify 'term
@@ -415,7 +415,7 @@
                    (get-context . (lambda () "Blah"))
                    (get-buffer . (lambda () (make-term "blah" "/bin/bash")))))
   (general-define-key
-   "C-'" (lambda () (interactive) (amigo-toggle 'term))))
+   "M-#" (lambda () (interactive) (amigo-toggle 'term))))
 
 
 (custom-set-faces
