@@ -125,14 +125,14 @@
 
 
 (add-hook 'find-file-hook 'infer-indents)
+
 (defun infer-indents ()
   "Chooses tabs or spaces depending on buffer."
   (let ((space-count (how-many "^  " (point-min) (point-max)))
         (tab-count (how-many "^\t" (point-min) (point-max))))
-    (if (> space-count tab-count) (setq indent-tabs-mode nil))
-    (if (> tab-count space-count) (setq indent-tabs-mode t))
-    indent-tabs-mode))
-
+    (cond ((> space-count tab-count) (setq indent-tabs-mode nil))
+          ((> tab-count space-count) (setq indent-tabs-mode t))
+          (t (setq indent-tabs-mode nil)))))
 
 ;; common
 (global-display-line-numbers-mode t)
