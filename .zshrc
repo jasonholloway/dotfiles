@@ -111,3 +111,6 @@ fi
 # KREW
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
+
+# added by travis gem
+[ ! -s /home/jason/.travis/travis.sh ] || source /home/jason/.travis/travis.sh
