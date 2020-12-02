@@ -1,6 +1,7 @@
-(load-file "init.d/packages.el")
-(load-file "init.d/windows.el")
-(load-file "init.d/keys.el")
+
+(load-file ".emacs.d/init.d/packages.el")
+(load-file ".emacs.d/init.d/windows.el")
+(load-file ".emacs.d/init.d/keys.el")
 
 ;; various packages
 (use-package monokai-theme
@@ -118,10 +119,10 @@
   :quelpa ((pasp-mode :fetcher github :repo "llaisdy/pasp-mode")))
 
 
-(load-file "init.d/markdown.el")
-(load-file "init.d/csharp.el")
-(load-file "init.d/typescript.el")
-(load-file "init.d/haskell.el")
+(load-file ".emacs.d/init.d/markdown.el")
+(load-file ".emacs.d/init.d/csharp.el")
+(load-file ".emacs.d/init.d/typescript.el")
+(load-file ".emacs.d/init.d/haskell.el")
 
 
 (add-hook 'find-file-hook 'infer-indents)
@@ -160,9 +161,9 @@
 
 (setq tramp-default-method "ssh")
 
-(load-file "init.d/amigo.el")
-(load-file "init.d/server.el")
-(load-file "init.d/treemacs.el")
+(load-file ".emacs.d/init.d/amigo.el")
+(load-file ".emacs.d/init.d/server.el")
+(load-file ".emacs.d/init.d/treemacs.el")
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
