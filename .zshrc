@@ -22,7 +22,7 @@ HYPHEN_INSENSITIVE="true"
 COMPLETION_WAITING_DOTS="true"
 # ENABLE_CORRECTION="true"
 
-plugins=(git ssh-agent docker dotnet taskwarrior zsh-syntax-highlighting)
+plugins=(git ssh-agent docker dotnet taskwarrior zsh-syntax-highlighting kubectl)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -107,3 +107,7 @@ bindkey '^[je' git_edit_all
 if [[ $(uname -o) == Msys ]]; then
   export PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/c\// {next} {print}' | sed 's/:*$//')
 fi
+
+# KREW
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
