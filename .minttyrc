@@ -16,3 +16,5 @@ ClickTargetMod=off
 PgUpDnScroll=no
 BellType=0
 WindowShortcuts=no
+ClipShortcuts=yes
+KeyFunctions=C+Enter:^^;
