@@ -1,7 +1,13 @@
-
 (load-file ".emacs.d/init.d/packages.el")
 (load-file ".emacs.d/init.d/windows.el")
 (load-file ".emacs.d/init.d/keys.el")
+
+(defun sm-try-smerge ()
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^<<<<<<< " nil t)
+      (smerge-mode 1))))
+(add-hook 'find-file-hook 'sm-try-smerge t)
 
 ;; various packages
 (use-package monokai-theme
