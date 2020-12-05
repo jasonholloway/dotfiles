@@ -126,7 +126,6 @@
 
 
 (add-hook 'find-file-hook 'infer-indents)
-
 (defun infer-indents ()
   "Chooses tabs or spaces depending on buffer."
   (let ((space-count (how-many "^  " (point-min) (point-max)))

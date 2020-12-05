@@ -7,11 +7,15 @@
   (amigo-specify 'term
                  '((params . ((side . right)))
                    (get-context . (lambda () "Blah"))
-                   (get-buffer . (lambda () (make-term "blah" "/bin/bash")))))
+                   (get-buffer . (lambda ()
+                                   (let ((buff (make-term "blah" "/bin/bash")))
+                                     (display-line-numbers-mode nil)
+                                     buff)))))
   (amigo-specify 'todo
                  '((params . ((side . right)))
                    (get-context . (lambda () "todo"))
                    (get-buffer . (lambda () (generate-new-buffer "todo")))))
+
   (general-define-key
    "M-#" (lambda () (interactive) (amigo-toggle 'term))
    "M-]" (lambda () (interactive) (amigo-toggle 'todo))))
