@@ -40,7 +40,10 @@
   :hook ((typescript-mode . setup-tide)
          (web-mode . (lambda ()
                        (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                         (setup-tide))))))
+                         (setup-tide)))))
+  :config
+  (evil-set-command-property 'tide-jump-to-definition :jump t)
+  (evil-set-command-property 'tide-jump-to-implementation :jump t))
 
 (use-package web-mode
   :after flycheck
