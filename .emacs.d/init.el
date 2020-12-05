@@ -134,8 +134,15 @@
           ((> tab-count space-count) (setq indent-tabs-mode t))
           (t (setq indent-tabs-mode nil)))))
 
+
+(add-hook 'find-file-hook 'enable-line-numbers)
+(defun enable-line-numbers ()
+  "Turns on line numbers in current buffer."
+  (display-line-numbers-mode t))
+
+
 ;; common
-(global-display-line-numbers-mode t)
+;; (global-display-line-numbers-mode t)
 ;; (setq linum-format "%d ")               
 (setq visible-bell 1)
 (setq vc-follow-symlinks nil)
