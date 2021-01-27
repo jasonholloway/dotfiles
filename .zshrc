@@ -45,8 +45,8 @@ alias t="task"
 choose_project() {
   prefix="$HOME/src"
   query="$(
-    find $prefix -maxdepth 3 -type d -name '.git' \
-    | sed -n '/.git/ { /node_module/d; s/\/.git.*$//; s|'"$prefix"'/||p }' \
+    find $prefix -maxdepth 4 -type d -name '.git' \
+    | sed -n '/node_module/d; s/\/.git.*$//; s|'"$prefix"'/||p' \
     | uniq \
     | fzy -q ""$1"" -l 30)"
 
