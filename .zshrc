@@ -35,7 +35,13 @@ alias t="task"
 
 choose_project() {
   prefix="$HOME/src"
-  query="$(ls ""$prefix"" | fzy -q ""$1"" -l 20)"
+  query="$(
+    find $prefix -maxdepth 3 -type d -name '.git' \
+    | sed -n '/.git/ { /node_module/d; s/\/.git.*$//; s|'"$prefix"'/||p }' \
+    | uniq \
+    | fzy -q ""$1"" -l 30)"
+
+  # query="$(ls ""$prefix"" | fzy -q ""$1"" -l 20)"
 
   if [ $? -eq 0 -a ! -z "$query" ]; then
     pushd "${prefix}/${query}"
