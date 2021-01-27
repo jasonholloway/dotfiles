@@ -22,7 +22,16 @@ HYPHEN_INSENSITIVE="true"
 COMPLETION_WAITING_DOTS="true"
 # ENABLE_CORRECTION="true"
 
-plugins=(git ssh-agent docker dotnet taskwarrior zsh-syntax-highlighting kubectl)
+plugins=(
+  git
+  ssh-agent
+  docker
+  dotnet
+  taskwarrior
+  zsh-syntax-highlighting
+  kubectl
+  nvm
+)
 
 source $ZSH/oh-my-zsh.sh
 
