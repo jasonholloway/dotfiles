@@ -90,7 +90,8 @@ bindkey '^[jb' git_choose_branch
 
 
 git_edit_dirty() {
-  file="$(git ls-files -m | uniq | fzy -q ""$1"" -l 20)"
+  # file="$(git ls-files -m | uniq | grep '<<<<' | fzy -q ""$1"" -l 20)"
+  file="$(grep -Rl '<<<<<' | uniq | fzy -q ""$1"" -l 20)"
 
   if [ $? -eq 0 -a ! -z "$file" ]; then
     em --alternate-editor=vim "$file"
