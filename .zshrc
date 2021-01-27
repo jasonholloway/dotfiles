@@ -40,6 +40,7 @@ export PATH="$HOME/src/scripts/bin:$PATH"
 
 alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
 alias t="task"
+alias g="git"
 
 
 choose_project() {
