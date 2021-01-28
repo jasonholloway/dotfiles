@@ -118,10 +118,11 @@ bindkey '^[je' git_edit_all
 
 
 vars_get() {
-  target="$(vars list | sed -n '/^T/p' | cut -d, -f2 | fzy -q ""$1"" -l 20)"
+  target=$(vars list | sed -n '/^T/p' | cut -d, -f2 | fzy -q ""$1"" -l 20)
 
-  if [ $? -eq 0 -a ! -z "$query" ]; then
-    vars get $target
+  if [[ $? && ! -z $target ]]; then
+    BUFFER="vars get $target"
+    CURSOR=${#BUFFER}
   fi
 
   zle reset-prompt
@@ -132,9 +133,9 @@ bindkey '^[jg' vars_get
 
 
 vars_run() {
-  block="$(vars list | sed -n '/^B/p' | cut -d, -f2 | fzy -q ""$1"" -l 20)"
+  block=$(vars list | sed -n '/^B/p' | cut -d, -f2 | fzy -q ""$1"" -l 20)
 
-  if [ $? -eq 0 -a ! -z "$query" ]; then
+  if [[ $? && ! -z $block ]]; then
     BUFFER="vars run $block"
     CURSOR=${#BUFFER}
   fi
@@ -144,6 +145,7 @@ vars_run() {
 
 zle -N vars_run
 bindkey '^[jr' vars_run
+
 
 # NVM
 # export NVM_DIR="$HOME/.nvm"
