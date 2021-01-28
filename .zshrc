@@ -130,11 +130,13 @@ vars_get() {
 zle -N vars_get
 bindkey '^[jg' vars_get
 
+
 vars_run() {
   block="$(vars list | sed -n '/^B/p' | cut -d, -f2 | fzy -q ""$1"" -l 20)"
 
   if [ $? -eq 0 -a ! -z "$query" ]; then
-    vars run $block
+    BUFFER="vars run $block"
+    CURSOR=${#BUFFER}
   fi
 
   zle reset-prompt
