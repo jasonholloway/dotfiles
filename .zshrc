@@ -117,6 +117,29 @@ zle -N git_edit_all
 bindkey '^[je' git_edit_all
 
 
+vars_choose() {
+  target=$(vars list | fzy -q ""$1"" -l 20)
+
+  IFS=, read type name <<< "$target"
+
+  case $type in
+    T)
+      BUFFER="vars get $name"
+      CURSOR=${#BUFFER}
+      ;;
+    B)
+      BUFFER="vars run $name"
+      CURSOR=${#BUFFER}
+      ;;
+  esac
+
+  zle reset-prompt
+}
+
+zle -N vars_choose
+bindkey '^[jv' vars_choose
+
+
 vars_get() {
   target=$(vars list | sed -n '/^T/p' | cut -d, -f2 | fzy -q ""$1"" -l 20)
 
