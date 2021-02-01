@@ -76,7 +76,12 @@ bindkey '^[jp' choose_project
 
 git_choose_branch() {
   buffer="$BUFFER"
-  branch="$(git branch --all --format='%(refname:short)' | fzy -q ""$1"" -l 20)"
+  branch=$(
+      git branch --all --format='%(refname:short)' \
+          | sed 's/^origin\///' \
+          | uniq -u \
+          | fzy -q ""$1"" -l 20
+      )
 
   if [ $? -eq 0 -a ! -z "$branch" ]; then
     if [ ! -z "$buffer" ]; then
