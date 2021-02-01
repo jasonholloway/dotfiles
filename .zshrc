@@ -35,8 +35,7 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-
-export PATH="$HOME/src/scripts/bin:$PATH"
+export PATH="$PATH:$HOME/.bin:${HOME}/.krew/bin:${HOME}/.local/bin"
 
 alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
 alias t="task"
@@ -44,7 +43,14 @@ alias g="git"
 alias v="vars"
 alias vr="vars run"
 alias vg="vars get"
+alias tf=terraform
 
+export NVM_DIR="$HOME/.nvm"
+export VISUAL=vim
+export EDITOR="$VISUAL"
+export TERM=xterm-256color
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 choose_project() {
   prefix="$HOME/src"
@@ -115,7 +121,6 @@ git_edit_all() {
 
 zle -N git_edit_all
 bindkey '^[je' git_edit_all
-
 
 vars_choose() {
   target=$(vars list | fzy -q ""$1"" -l 20)
