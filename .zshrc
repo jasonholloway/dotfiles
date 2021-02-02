@@ -43,6 +43,7 @@ alias g="git"
 alias v="vars"
 alias vr="vars run"
 alias vg="vars get"
+alias vcc="vars cache clear"
 alias tf=terraform
 
 export NVM_DIR="$HOME/.nvm"
@@ -134,11 +135,11 @@ vars_choose() {
 
   case $type in
     T)
-      BUFFER="vars get $name"
+      BUFFER="vg $name"
       CURSOR=${#BUFFER}
       ;;
     B)
-      BUFFER="vars run $name"
+      BUFFER="vr $name"
       CURSOR=${#BUFFER}
       ;;
   esac
