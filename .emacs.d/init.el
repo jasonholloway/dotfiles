@@ -213,6 +213,10 @@
 (load-file ".emacs.d/init.d/server.el")
 (load-file ".emacs.d/init.d/treemacs.el")
 
+(setq epa-pinentry-mode 'loopback)
+(pinentry-start)
+(server-start)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
