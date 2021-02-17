@@ -155,7 +155,7 @@ vars_get() {
   target=$(vars list | sed -n '/^T/p' | cut -d, -f2 | fzy -q ""$1"" -l 20)
 
   if [[ $? && ! -z $target ]]; then
-    BUFFER="vars get $target"
+    BUFFER="vg $target"
     CURSOR=${#BUFFER}
   fi
 
@@ -170,7 +170,7 @@ vars_run() {
   block=$(vars list | sed -n '/^B/p' | cut -d, -f2 | fzy -q ""$1"" -l 20)
 
   if [[ $? && ! -z $block ]]; then
-    BUFFER="vars run $block"
+    BUFFER="vr $block"
     CURSOR=${#BUFFER}
   fi
 
