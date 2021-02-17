@@ -2,6 +2,8 @@
 (load-file ".emacs.d/init.d/windows.el")
 (load-file ".emacs.d/init.d/keys.el")
 
+(add-to-list 'auto-mode-alist '("@*" . shell-script-mode))
+
 (defun sm-try-smerge ()
   (save-excursion
     (goto-char (point-min))
