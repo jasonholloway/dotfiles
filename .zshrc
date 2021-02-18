@@ -43,7 +43,12 @@ alias g="git"
 alias v="vars"
 alias vr="vars run"
 alias vg="vars get"
+alias vp="vars pin"
+alias vu="vars unpin"
+alias vpc="vars pin clear"
 alias vcc="vars cache clear"
+alias vpl="vars pin list"
+alias vxl="vars context list"
 alias tf=terraform
 
 export NVM_DIR="$HOME/.nvm"
@@ -148,7 +153,7 @@ vars_choose() {
 }
 
 zle -N vars_choose
-bindkey '^[jv' vars_choose
+bindkey '^[jvl' vars_choose
 
 
 vars_get() {
@@ -163,7 +168,7 @@ vars_get() {
 }
 
 zle -N vars_get
-bindkey '^[jg' vars_get
+bindkey '^[jvg' vars_get
 
 
 vars_run() {
@@ -178,7 +183,41 @@ vars_run() {
 }
 
 zle -N vars_run
-bindkey '^[jr' vars_run
+bindkey '^[jvr' vars_run
+
+
+vars_pin() {
+  var=$(vars context list | fzy -q ""$1"" -l 20 | cut -f1)
+
+  if [[ $? && ! -z $var ]]; then
+    vars pin $var
+  fi
+
+  zle reset-prompt
+}
+
+zle -N vars_pin
+bindkey '^[jvp' vars_pin
+
+
+vars_unpin() {
+  var=$(vars pin list | fzy -q ""$1"" -l 20 | cut -f1)
+
+  if [[ $? && ! -z $var ]]; then
+    vars pin rm $var
+  fi
+
+  zle reset-prompt
+}
+
+zle -N vars_unpin
+bindkey '^[jvpr' vars_unpin
+
+
+bindkey -s '^[jvpl' 'vars pin list^M'
+bindkey -s '^[jvpc' 'vars pin clear^M'
+bindkey -s '^[jvxl' 'vars context list^M'
+bindkey -s '^[jvxc' 'vars context clear^M'
 
 
 # NVM
