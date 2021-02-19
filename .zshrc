@@ -49,6 +49,7 @@ alias vpc="vars pin clear"
 alias vcc="vars cache clear"
 alias vpl="vars pin list"
 alias vxl="vars context list"
+alias vxz="vars context prev"
 alias tf=terraform
 
 export NVM_DIR="$HOME/.nvm"
@@ -153,7 +154,7 @@ vars_choose() {
 }
 
 zle -N vars_choose
-bindkey '^[jvl' vars_choose
+bindkey '^[jvj' vars_choose
 
 
 vars_get() {
@@ -197,7 +198,7 @@ vars_pin() {
 }
 
 zle -N vars_pin
-bindkey '^[jvp' vars_pin
+bindkey '^[jvxp' vars_pin
 
 
 vars_unpin() {
@@ -214,10 +215,16 @@ zle -N vars_unpin
 bindkey '^[jvpr' vars_unpin
 
 
+bindkey -s '^[jvp' 'vars pin list^M'
 bindkey -s '^[jvpl' 'vars pin list^M'
 bindkey -s '^[jvpc' 'vars pin clear^M'
+
+bindkey -s '^[jvx' 'vars context list^M'
 bindkey -s '^[jvxl' 'vars context list^M'
 bindkey -s '^[jvxc' 'vars context clear^M'
+
+bindkey -s '^[jvxz' 'vars context prev^M'
+bindkey -s '^[jvz' 'vars context prev^M'
 
 
 # NVM
