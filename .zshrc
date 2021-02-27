@@ -50,6 +50,7 @@ alias vcc="vars cache clear"
 alias vpl="vars pin list"
 alias vxl="vars context list"
 alias vxz="vars context prev"
+alias vz="vars context prev"
 alias tf=terraform
 
 export NVM_DIR="$HOME/.nvm"
