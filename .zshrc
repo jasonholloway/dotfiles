@@ -40,17 +40,6 @@ export PATH="$PATH:$HOME/.bin:${HOME}/.krew/bin:${HOME}/.local/bin"
 alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
 alias t="task"
 alias g="git"
-alias v="vars"
-alias vr="vars run"
-alias vg="vars get"
-alias vp="vars pin"
-alias vu="vars unpin"
-alias vpc="vars pin clear"
-alias vcc="vars cache clear"
-alias vpl="vars pin list"
-alias vxl="vars context list"
-alias vxz="vars context prev"
-alias vz="vars context prev"
 alias tf=terraform
 
 export NVM_DIR="$HOME/.nvm"
@@ -58,7 +47,10 @@ export VISUAL=vim
 export EDITOR="$VISUAL"
 export TERM=xterm-256color
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+[ -f $HOME/src/vars/.zsh ] && source $HOME/src/vars/.zsh
+[ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+
 
 choose_project() {
   prefix="$HOME/src"
@@ -134,98 +126,6 @@ git_edit_all() {
 
 zle -N git_edit_all
 bindkey '^[je' git_edit_all
-
-vars_choose() {
-  target=$(vars list | fzy -q ""$1"" -l 20)
-
-  IFS=, read type name <<< "$target"
-
-  case $type in
-    T)
-      BUFFER="vg $name"
-      CURSOR=${#BUFFER}
-      ;;
-    B)
-      BUFFER="vr $name"
-      CURSOR=${#BUFFER}
-      ;;
-  esac
-
-  zle reset-prompt
-}
-
-zle -N vars_choose
-bindkey '^[jvj' vars_choose
-
-
-vars_get() {
-  target=$(vars list | sed -n '/^T/p' | cut -d, -f2 | fzy -q ""$1"" -l 20)
-
-  if [[ $? && ! -z $target ]]; then
-    BUFFER="vg $target"
-    CURSOR=${#BUFFER}
-  fi
-
-  zle reset-prompt
-}
-
-zle -N vars_get
-bindkey '^[jvg' vars_get
-
-
-vars_run() {
-  block=$(vars list | sed -n '/^B/p' | cut -d, -f2 | fzy -q ""$1"" -l 20)
-
-  if [[ $? && ! -z $block ]]; then
-    BUFFER="vr $block"
-    CURSOR=${#BUFFER}
-  fi
-
-  zle reset-prompt
-}
-
-zle -N vars_run
-bindkey '^[jvr' vars_run
-
-
-vars_pin() {
-  var=$(vars context list | fzy -q ""$1"" -l 20 | cut -f1)
-
-  if [[ $? && ! -z $var ]]; then
-    vars pin $var
-  fi
-
-  zle reset-prompt
-}
-
-zle -N vars_pin
-bindkey '^[jvxp' vars_pin
-
-
-vars_unpin() {
-  var=$(vars pin list | fzy -q ""$1"" -l 20 | cut -f1)
-
-  if [[ $? && ! -z $var ]]; then
-    vars pin rm $var
-  fi
-
-  zle reset-prompt
-}
-
-zle -N vars_unpin
-bindkey '^[jvpr' vars_unpin
-
-
-bindkey -s '^[jvp' 'vars pin list^M'
-bindkey -s '^[jvpl' 'vars pin list^M'
-bindkey -s '^[jvpc' 'vars pin clear^M'
-
-bindkey -s '^[jvx' 'vars context list^M'
-bindkey -s '^[jvxl' 'vars context list^M'
-bindkey -s '^[jvxc' 'vars context clear^M'
-
-bindkey -s '^[jvxz' 'vars context prev^M'
-bindkey -s '^[jvz' 'vars context prev^M'
 
 
 # NVM
