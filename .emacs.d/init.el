@@ -1,8 +1,8 @@
-(load-file ".emacs.d/init.d/packages.el")
-(load-file ".emacs.d/init.d/windows.el")
-(load-file ".emacs.d/init.d/keys.el")
+(load-file "~/.emacs.d/init.d/packages.el")
+(load-file "~/.emacs.d/init.d/windows.el")
+(load-file "~/.emacs.d/init.d/keys.el")
 
-(add-to-list 'auto-mode-alist '("@*" . shell-script-mode))
+(add-to-list 'auto-mode-alist '("^@.*" . shell-script-mode))
 
 (defun sm-try-smerge ()
   (save-excursion
@@ -163,10 +163,11 @@
   :quelpa ((pasp-mode :fetcher github :repo "llaisdy/pasp-mode")))
 
 
-(load-file ".emacs.d/init.d/markdown.el")
-(load-file ".emacs.d/init.d/csharp.el")
-(load-file ".emacs.d/init.d/typescript.el")
-(load-file ".emacs.d/init.d/haskell.el")
+(load-file "~/.emacs.d/init.d/markdown.el")
+(load-file "~/.emacs.d/init.d/csharp.el")
+(load-file "~/.emacs.d/init.d/typescript.el")
+(load-file "~/.emacs.d/init.d/haskell.el")
+(load-file "~/.emacs.d/init.d/rust.el")
 
 
 (add-hook 'find-file-hook 'infer-indents)
@@ -211,9 +212,9 @@
 
 (setq tramp-default-method "ssh")
 
-(load-file ".emacs.d/init.d/amigo.el")
-(load-file ".emacs.d/init.d/server.el")
-(load-file ".emacs.d/init.d/treemacs.el")
+(load-file "~/.emacs.d/init.d/amigo.el")
+(load-file "~/.emacs.d/init.d/server.el")
+(load-file "~/.emacs.d/init.d/treemacs.el")
 
 (setq epa-pinentry-mode 'loopback)
 (pinentry-start)
@@ -235,7 +236,7 @@
    (quote
     ("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
  '(evil-shift-width 2)
- '(org-hide-emphasis-markers t t)
+ '(org-hide-emphasis-markers t)
  '(org-hide-leading-stars t)
  '(org-image-actual-width 100)
  '(package-selected-packages
