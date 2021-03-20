@@ -28,9 +28,7 @@
   :after lsp-mode
   :commands lsp-ui-mode
   :custom
-  (lsp-ui-peek-always-show t)
-  (lsp-ui-sideline-show-hover t)
-  (lsp-ui-doc-enable t))
+  (lsp-ui-peek-always-show t))
 
 (use-package lsp-mode
   :ensure

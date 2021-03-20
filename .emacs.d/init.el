@@ -241,11 +241,14 @@
     ("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
  '(evil-shift-width 2)
  '(org-hide-emphasis-markers t)
+ '(global-display-line-numbers-mode t)
+ '(line-number-mode nil)
  '(org-hide-leading-stars t)
  '(org-image-actual-width 100)
  '(package-selected-packages
    (quote
     (helm-gtags ggtags amigo nameless names treemacs-projectile treemacs neo-tree beacon smooth-scrolling sublimity dante profile-dotemacs general evil-collection smartparens which-key quelpa-use-package quelpa impatient-mode esup shut-up lsp-mode go-mode projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil)))
  '(scroll-error-top-bottom t)
+ '(smooth-scrolling-mode t)
  '(tab-width 2))
 

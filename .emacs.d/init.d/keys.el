@@ -20,6 +20,8 @@
   (global-evil-surround-mode t))
 
 (use-package which-key
+  :custom
+  (which-key-idle-delay 0.7)
   :config
   (which-key-mode)
   :bind (("C-h h" . 'which-key-show-top-level)))
