@@ -216,8 +216,12 @@
 (load-file "~/.emacs.d/init.d/server.el")
 (load-file "~/.emacs.d/init.d/treemacs.el")
 
-(setq epa-pinentry-mode 'loopback)
-(pinentry-start)
+(use-package pinentry
+  :ensure
+  :config
+  (setq epa-pinentry-mode 'loopback)
+  (pinentry-start))
+
 (server-start)
 
 (custom-set-faces

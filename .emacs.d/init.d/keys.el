@@ -18,3 +18,8 @@
   :after evil
   :config
   (global-evil-surround-mode t))
+
+(use-package which-key
+  :config
+  (which-key-mode)
+  :bind (("C-h h" . 'which-key-show-top-level)))
