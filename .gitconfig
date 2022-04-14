@@ -23,10 +23,16 @@
 	makeexec = !sh -c 'if [[ ${0: -3} == ".sh" ]]; then git update-index --chmod=+x $0; git add $0'
 [user]
 	name = Jason Holloway
-	email = jason.holloway@sorted.com
+	email = miceeatnicerice@hotmail.com
 [push]
 	default = current
 [pull]
 	ff = only
 [diff]
 	tool = vimdiff
+
+[includeIf "gitdir:~/genesis/"]
+  path = .gitconfig-sorted
+
+[includeIf "gitdir:~/sorted/"]
+  path = .gitconfig-sorted
