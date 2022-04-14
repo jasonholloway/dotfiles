@@ -31,8 +31,8 @@
 [diff]
 	tool = vimdiff
 
-[includeIf "gitdir:~/genesis/"]
+[includeIf "gitdir:~/src/sorted/"]
+  path = .gitconfig-sorted
+[includeIf "gitdir:~/src/genesis/"]
   path = .gitconfig-sorted
 
-[includeIf "gitdir:~/sorted/"]
-  path = .gitconfig-sorted
