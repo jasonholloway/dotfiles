@@ -1,5 +1,3 @@
-source $HOME/.zprofile
-
 # Lines configured by zsh-newuser-install
 HISTFILE=$HOME/.histfile
 HISTSIZE=1000
@@ -27,9 +25,9 @@ plugins=(
   ssh-agent
   docker
   dotnet
-  taskwarrior
   kubectl
   nvm
+  gentoo-zsh-completions
   zsh-syntax-highlighting
 )
 
@@ -38,7 +36,6 @@ source $ZSH/oh-my-zsh.sh
 export PATH="$PATH:$HOME/.bin:${HOME}/.krew/bin:${HOME}/.local/bin"
 
 alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
-alias t="task"
 alias g="git"
 alias tf=terraform
 
@@ -128,11 +125,6 @@ zle -N git_edit_all
 bindkey '^[je' git_edit_all
 
 
-# NVM
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-
 # De-Windowize Path 
 if [[ $(uname -o) == Msys ]]; then
   export PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/c\// {next} {print}' | sed 's/:*$//')
@@ -140,7 +132,3 @@ fi
 
 # KREW
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
-
-# added by travis gem
-[ ! -s /home/jason/.travis/travis.sh ] || source /home/jason/.travis/travis.sh
