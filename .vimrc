@@ -4,7 +4,9 @@ set expandtab
 
 set number
 set numberwidth=3
-highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE guifg=DarkGrey guibg=NONE
+"highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE guifg=DarkGrey guibg=NONE
+
+colorscheme ron
 
 :inoremap jj <Esc>
 
