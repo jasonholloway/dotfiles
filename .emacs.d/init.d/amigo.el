@@ -1,8 +1,8 @@
 
 (use-package amigo
   :quelpa (amigo
-           ;; :fetcher github :repo jasonholloway/amigo)
-           :fetcher file :path "~/src/el/amigo")
+           :fetcher github :repo jasonholloway/amigo)
+           ;; :fetcher file :path "~/src/el/amigo")
   :init
   (amigo-specify 'term
                  '((params . ((side . right)))
