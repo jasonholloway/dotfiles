@@ -112,9 +112,15 @@ bindkey '^[jd' git_edit_dirty
 
 
 git_edit_all() {
-  file="$(git ls-files | fzy -q ""$1"" -l 20)"
+  file="$(
+    { git ls-files 2>/dev/null || find . -maxdepth 2 | sed 's_\./__' | sort; } | fzy -q ""$1"" -l 30
+  )"
 
-  if [ $? -eq 0 -a ! -z "$file" ]; then
+  success=$?
+
+  if [ -d "$file" ]; then
+    cd "$file"
+  elif [ $success -eq 0 -a ! -z "$file" ]; then
     em --alternate-editor=vim "$file"
   fi
 
