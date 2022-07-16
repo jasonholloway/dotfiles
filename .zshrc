@@ -29,6 +29,7 @@ plugins=(
   nvm
   gentoo-zsh-completions
   zsh-syntax-highlighting
+  aws
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -54,7 +55,7 @@ choose_project() {
   query="$(
     find $prefix -maxdepth 4 -type d -name '.git' \
     | sed -n '/node_module/d; s/\/.git.*$//; s|'"$prefix"'/||p' \
-    | uniq \
+    | sort -u \
     | fzy -q ""$1"" -l 30)"
 
   # query="$(ls ""$prefix"" | fzy -q ""$1"" -l 20)"

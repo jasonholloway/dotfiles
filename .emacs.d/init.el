@@ -237,17 +237,16 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   (quote
-    ("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default)))
+   '("bd7b7c5df1174796deefce5debc2d976b264585d51852c962362be83932873d9" default))
  '(evil-shift-width 2)
- '(org-hide-emphasis-markers t)
+ '(flycheck-navigation-minimum-level 'error)
  '(global-display-line-numbers-mode t)
  '(line-number-mode nil)
+ '(org-hide-emphasis-markers t)
  '(org-hide-leading-stars t)
  '(org-image-actual-width 100)
  '(package-selected-packages
-   (quote
-    (helm-gtags ggtags amigo nameless names treemacs-projectile treemacs neo-tree beacon smooth-scrolling sublimity dante profile-dotemacs general evil-collection smartparens which-key quelpa-use-package quelpa impatient-mode esup shut-up lsp-mode go-mode projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil)))
+   '(php-mode helm-rg org-re-reveal dap-mode company helm-gtags ggtags amigo nameless names treemacs-projectile treemacs neo-tree beacon smooth-scrolling sublimity dante profile-dotemacs general evil-collection smartparens which-key quelpa-use-package quelpa impatient-mode esup shut-up lsp-mode go-mode projectile-ripgrep typescript-mode csv-mode magit markdown-mode powershell fuzzy-format yaml-mode helm-ag omnisharp csharp-mode helm-projectile ensime use-package monokai-theme key-chord helm evil))
  '(scroll-error-top-bottom t)
  '(smooth-scrolling-mode t)
  '(tab-width 2))
