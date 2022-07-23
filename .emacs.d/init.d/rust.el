@@ -1,6 +1,4 @@
 
-(defvar rust-src-path "/home/jason/.rustup/toolchains/nightly-x86_64-pc-windows-gnu/lib/rustlib/src/rust/library")
-
 (use-package rustic
   :after lsp-mode
   :bind (:map rustic-mode-map
@@ -38,3 +36,22 @@
   :config
   (define-key lsp-mode-map (kbd "M-l") lsp-command-map)
   (add-hook 'lsp-mode-hook 'lsp-ui-mode))
+
+(use-package dap-mode
+  :config
+  (dap-ui-mode)
+  (dap-ui-controls-mode 1)
+
+  (require 'dap-lldb)
+  (require 'dap-gdb-lldb)
+  (dap-gdb-lldb-setup)
+
+  (dap-register-debug-template
+   "Rust::LLDB Run Configuration"
+   (list :type "lldb"
+         :request "launch"
+         :name "LLDB::Run"
+         :gdbpath "rust-lldb"
+         :target nil
+         :cwd nil)
+   ))

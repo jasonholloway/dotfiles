@@ -105,9 +105,13 @@
   :config
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
-(use-package terraform-mode)
+(use-package terraform-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.tf\\'" . terraform-mode)))
 
-(use-package yaml-mode)
+(use-package yaml-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-mode)))
 
 (use-package salt-mode)
 
@@ -206,6 +210,9 @@
 
 (setq org-hide-emphasis-markers t)
 
+(use-package org-re-reveal
+  :ensure)
+
 (if (display-graphic-p)
   (progn
     (scroll-bar-mode 0)
@@ -216,6 +223,7 @@
 (load-file "~/.emacs.d/init.d/amigo.el")
 (load-file "~/.emacs.d/init.d/server.el")
 (load-file "~/.emacs.d/init.d/treemacs.el")
+(load-file "~/.emacs.d/init.d/toggleWindowSplit.el")
 
 (use-package pinentry
   :ensure

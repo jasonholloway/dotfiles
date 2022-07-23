@@ -27,6 +27,8 @@
    "M-l" 'flycheck-list-errors
    ))
 
+(setq exec-path (append exec-path '("/home/jason/.nvm/versions/node/v16.14.0/bin")))
+
 (use-package typescript-mode
   :config
   (setq typescript-indent-level 2))
