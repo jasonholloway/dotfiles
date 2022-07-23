@@ -89,7 +89,8 @@
   :config
   (setq helm-ag-base-command "ag --nocolor --nogroup --ignore-case")
   (setq helm-ag-command-option "--all-text")
-  (setq helm-ag-insert-at-point 'symbol))
+  (setq helm-ag-insert-at-point 'symbol)
+  (setq helm-ag-use-agignore t))
 
 
 (unless is-windows
