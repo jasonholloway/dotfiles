@@ -1,4 +1,6 @@
 
+(use-package general)
+
 (use-package evil
   :init
   (setq evil-want-keybinding nil)

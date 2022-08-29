@@ -11,6 +11,10 @@
       (smerge-mode 1))))
 (add-hook 'find-file-hook 'sm-try-smerge t)
 
+(add-to-list 'term-file-aliases '("foot" . "xterm"))
+
+(add-hook 'occur-hook (lambda () (switch-to-buffer-other-window "*Occur*")))
+
 ;; various packages
 (use-package monokai-theme
   :config (load-theme `monokai t))
