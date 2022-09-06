@@ -38,6 +38,7 @@ export PATH="$PATH:$HOME/.bin:${HOME}/.krew/bin:${HOME}/.local/bin"
 
 alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
 alias g="git"
+alias d=docker
 alias tf=terraform
 alias s='sudo systemctl'
 alias j='sudo journalctl -xe'
