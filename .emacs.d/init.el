@@ -54,6 +54,10 @@
 (use-package beacon
   :config (beacon-mode t))
 
+(use-package default-text-scale
+  :config
+  (default-text-scale-mode))
+
 (use-package profile-dotemacs
   :quelpa
   ((profile-dotemacs
@@ -76,6 +80,7 @@
   (global-set-key (kbd "M-x") `helm-M-x)
   (global-set-key (kbd "C-x b") `helm-mini)
   (global-set-key (kbd "C-x C-f") `helm-find-files)
+  (setq helm-minibuffer-history-key "M-p")
   (setq helm-mini-default-sources
         `(helm-source-buffers-list
           helm-source-recentf
