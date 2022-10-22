@@ -36,12 +36,17 @@ source $ZSH/oh-my-zsh.sh
 
 export PATH="$PATH:$HOME/.bin:${HOME}/.krew/bin:${HOME}/.local/bin"
 
-alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
 alias g="git"
 alias d=docker
 alias tf=terraform
-alias s='sudo systemctl'
-alias j='sudo journalctl -xe'
+alias s='systemctl'
+alias j='journalctl -xe'
+
+if [[ $SWAYSOCK ]]
+then alias em="emacsclient -c -s $HOME/.emacs.d/server/server"
+else alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
+fi
+
 
 
 export NVM_DIR="$HOME/.nvm"
@@ -118,7 +123,10 @@ bindkey '^[jd' git_edit_dirty
 
 git_edit_all() {
   file="$(
-    { git ls-files 2>/dev/null || find . -maxdepth 2 | sed 's_\./__' | sort; } | fzy -q ""$1"" -l 30
+    {
+      git ls-files 2>/dev/null \
+      || find . -maxdepth 1 | sed 's_\./__' | sort
+    } | fzy -q ""$1"" -l 30
   )"
 
   success=$?
