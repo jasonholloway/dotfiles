@@ -125,7 +125,7 @@ git_edit_all() {
   file="$(
     {
       git ls-files 2>/dev/null \
-      || find . -maxdepth 1 | sed 's_\./__' | sort
+      || find . -maxdepth 1 | sed 's_\./__; /^\.$/d' | sort
     } | fzy -q ""$1"" -l 30
   )"
 
