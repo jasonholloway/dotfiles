@@ -52,11 +52,33 @@ fi
 export NVM_DIR="$HOME/.nvm"
 export VISUAL=vim
 export EDITOR="$VISUAL"
-export TERM=xterm-256color
+# export TERM=xterm-256color
 
 
 [ -f $HOME/src/vars/.zsh ] && source $HOME/src/vars/.zsh
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
+
+
+choose_recent_dir() {
+  local chosen
+
+  chosen="$(
+    dirs -p \
+    | tail -n+2 \
+    | fzy -q ""$1"" -l 30 \
+    | sed "s%~%$HOME%"
+    )"
+
+  if [ $? -eq 0 -a ! -z "$chosen" ]; then
+    pushd "${chosen}"
+    clear
+  fi
+
+  zle reset-prompt
+}
+
+zle -N choose_recent_dir
+bindkey '^[jr' choose_recent_dir
 
 
 choose_project() {
@@ -65,7 +87,8 @@ choose_project() {
     find $prefix -maxdepth 4 -type d -name '.git' \
     | sed -n '/node_module/d; s/\/.git.*$//; s|'"$prefix"'/||p' \
     | sort -u \
-    | fzy -q ""$1"" -l 30)"
+    | fzy -q ""$1"" -l 30
+    )"
 
   # query="$(ls ""$prefix"" | fzy -q ""$1"" -l 20)"
 
