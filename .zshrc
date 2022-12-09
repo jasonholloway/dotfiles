@@ -78,7 +78,7 @@ choose_recent_dir() {
 }
 
 zle -N choose_recent_dir
-bindkey '^[jr' choose_recent_dir
+bindkey '^[jf' choose_recent_dir
 
 
 choose_project() {
