@@ -1,38 +1,38 @@
 [core]
-	fscache = true
-	autocrlf = false
+  fscache = true
+  autocrlf = false
 [credential]
-	helper = manager
+  helper = manager
 [alias]
   ad = add
   ap = add -p
-	st = status
-	co = checkout
-	cp = cherry-pick
-	br = branch
-	cm = commit -m
+  st = status
+  co = checkout
+  cp = cherry-pick
+  br = branch
+  cm = commit -m
   cma = commit --amend
-	lg = log --graph --oneline
-	fa = fetch --all
-	pf = push --force
-	rc = rebase --continue
-	ra = rebase --abort
-	rs = rebase --skip
-	ri = rebase -i
-	rom = rebase origin/master
-	po = push origin
-	pof = push origin -f
-	conflicts = diff --name-only --diff-filter=U
-	makeexec = !sh -c 'if [[ ${0: -3} == ".sh" ]]; then git update-index --chmod=+x $0; git add $0'
+  lg = log --graph --oneline
+  fa = fetch --all
+  pf = push --force
+  rc = rebase --continue
+  ra = rebase --abort
+  rs = rebase --skip
+  ri = rebase -i
+  rom = rebase origin/master
+  po = push origin
+  pof = push origin -f
+  conflicts = diff --name-only --diff-filter=U
+  makeexec = !sh -c 'if [[ ${0: -3} == ".sh" ]]; then git update-index --chmod=+x $0; git add $0'
 [user]
-	name = Jason Holloway
-	email = miceeatnicerice@hotmail.com
+  name = Jason Holloway
+  email = miceeatnicerice@hotmail.com
 [push]
-	default = current
+  default = current
 [pull]
-	ff = only
+  ff = only
 [diff]
-	tool = vimdiff
+  tool = vimdiff
 
 [includeIf "gitdir:~/src/sorted/"]
   path = .gitconfig-sorted
