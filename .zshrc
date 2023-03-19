@@ -45,7 +45,7 @@ alias s='systemctl'
 alias j='journalctl -xe'
 
 if [[ $SWAYSOCK ]]
-then alias em="emacsclient -c -s $HOME/.emacs.d/server/server"
+then alias em="emacsclient -nw -s $HOME/.emacs.d/server/server"
 else alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
 fi
 
