@@ -34,7 +34,9 @@ plugins=(
 
 source $ZSH/oh-my-zsh.sh
 
-export PATH="$PATH:$HOME/.bin:${HOME}/.krew/bin:${HOME}/.local/bin"
+export PATH="${HOME}/.cargo/bin:$HOME/.bin:${HOME}/.krew/bin:${HOME}/.local/bin:$PATH"
+
+export GPG_TTY=$(tty)
 
 alias g="git"
 alias d=docker
