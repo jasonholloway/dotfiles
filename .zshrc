@@ -84,18 +84,16 @@ bindkey '^[jf' choose_recent_dir
 
 
 choose_project() {
-  prefix="$HOME/src"
-  query="$(
-    find $prefix -maxdepth 4 -type d -name '.git' \
-    | sed -n '/node_module/d; s/\/.git.*$//; s|'"$prefix"'/||p' \
-    | sort -u \
-    | fzy -q ""$1"" -l 30
-    )"
+  roots=("$HOME/src" "/usr/local/src")
 
-  # query="$(ls ""$prefix"" | fzy -q ""$1"" -l 20)"
+  opts=$(find "${roots[@]}" -maxdepth 4 -type d -name '.git' \
+    | sed -n '/node_module/d; s/\/.git.*$//; p' \
+    | sort -u)
 
-  if [ $? -eq 0 -a ! -z "$query" ]; then
-    pushd "${prefix}/${query}"
+  chosen=$(fzy -q "$1" -l 30 <<< "$opts")
+
+  if [ $? -eq 0 -a ! -z "$chosen" ]; then
+    pushd "$chosen"
     clear
   fi
 
@@ -149,7 +147,7 @@ bindkey '^[jd' git_edit_dirty
 git_edit_all() {
   file="$(
     {
-      git ls-files 2>/dev/null \
+      git ls-files -co 2>/dev/null \
       || find . -maxdepth 1 | sed 's_\./__; /^\.$/d' | sort
     } | fzy -q ""$1"" -l 30
   )"
