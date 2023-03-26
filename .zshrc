@@ -49,12 +49,11 @@ then alias em="emacsclient -nw -s $HOME/.emacs.d/server/server"
 else alias em="emacsclient -t -s $HOME/.emacs.d/server/server"
 fi
 
-
-
-export NVM_DIR="$HOME/.nvm"
-export VISUAL=vim
-export EDITOR="$VISUAL"
 # export TERM=xterm-256color
+
+# export VISUAL=vim
+export VISUAL="emacsclient -nw -s $HOME/.emacs.d/server/server -a vim"
+export EDITOR="$VISUAL"
 
 
 [ -f $HOME/src/vars/.zsh ] && source $HOME/src/vars/.zsh
