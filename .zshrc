@@ -146,7 +146,7 @@ bindkey '^[jd' git_edit_dirty
 git_edit_all() {
   file="$(
     {
-      git ls-files -co 2>/dev/null \
+      git ls-files -co --exclude-standard 2>/dev/null \
       || find . -maxdepth 1 | sed 's_\./__; /^\.$/d' | sort
     } | fzy -q ""$1"" -l 30
   )"
