@@ -4,10 +4,13 @@
 (use-package evil
   :init
   (setq evil-want-keybinding nil)
-  (setq evil-want-C-u-scroll t)
+  (setq evil-want-C-u-scroll nil)
   (setq evil-move-beyond-eol t)
   :config
-  (evil-mode 1))
+  (evil-mode 1)
+  (global-set-key (kbd "M-SPC") 'evil-window-next)
+  (evil-define-key 'normal org-mode-map (kbd "<tab>") #'org-cycle)
+  )
 
 (use-package evil-collection
   :after evil

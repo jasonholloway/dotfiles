@@ -6,7 +6,7 @@ set number
 set numberwidth=3
 "highlight LineNr term=bold cterm=NONE ctermfg=DarkGrey ctermbg=NONE guifg=DarkGrey guibg=NONE
 
-colorscheme ron
+colorscheme default
 
 :inoremap jj <Esc>
 

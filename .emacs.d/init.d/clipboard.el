@@ -1,4 +1,5 @@
 
+;; this should be set via systemd really
 (setenv "WAYLAND_DISPLAY" "wayland-1")
 
 ;; credit: yorickvP on Github

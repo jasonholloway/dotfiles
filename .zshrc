@@ -43,6 +43,7 @@ alias d=docker
 alias tf=terraform
 alias s='systemctl'
 alias j='journalctl -xe'
+alias wa='watch -n0.5'
 
 if [[ $SWAYSOCK ]]
 then alias em="emacsclient -nw -s $HOME/.emacs.d/server/server"
@@ -190,5 +191,26 @@ if [[ $(uname -o) == Msys ]]; then
   export PATH=$(echo ${PATH} | awk -v RS=: -v ORS=: '/c\// {next} {print}' | sed 's/:*$//')
 fi
 
+export VARS_PATH=/home/jason/src/vars
+
 # KREW
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+
+export PATH=$PATH:/usr/local/bin
+
+source '/usr/local/azure-cli/az.completion'
+
+
+# Add .NET Core SDK tools
+export PATH="$PATH:/home/jason/.dotnet/tools"
+
+# PERL_LOCAL_LIB_ROOT="/home/jason/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+# PERL_MB_OPT="--install_base \"/home/jason/perl5\""; export PERL_MB_OPT;
+# PERL_MM_OPT="INSTALL_BASE=/home/jason/perl5"; export PERL_MM_OPT;
+# PATH="/home/jason/perl5/bin${PATH:+:${PATH}}"; export PATH;
+# PERL5LIB="/home/jason/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+export PATH="$HOME/.plenv/bin:$PATH"
+eval "$(plenv init - zsh)"
