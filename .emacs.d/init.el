@@ -1,6 +1,7 @@
 (load-file "~/.emacs.d/init.d/packages.el")
 (load-file "~/.emacs.d/init.d/windows.el")
 (load-file "~/.emacs.d/init.d/keys.el")
+(load-file "~/.emacs.d/init.d/clipboard.el")
 
 (add-to-list 'auto-mode-alist '("@.+\\'" . shell-script-mode))
 

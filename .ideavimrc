@@ -1,7 +1,10 @@
 source ~/.vimrc
+
 set surround
 set exchange
 set visualbell
 set noerrorbell
-
 set highlightedyank
+
+sethandler <C-x> n:ide
+sethandler <C-a> n:ide
